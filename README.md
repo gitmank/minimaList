@@ -12,7 +12,7 @@ I want the project to be a very simple kanban board that small teams can use to 
 ## Design and Content Contributions
 :warning: You must join DSN2099 PE2 Project Group 28 to contribute
 + ### First see the plan page, which I will keep updating with designs
-> The Plan - [minimaList plan.pdf](https://github.com/gitmank/minimaList/files/10291902/minimaList.plan.pdf)
+> The Plan -   [minimaList plan.pdf](https://github.com/gitmank/minimaList/files/10296756/minimaList.plan.pdf)
 + ### Available tasks have been put up as sticky notes in the file
 > Color of the note indicates urgency of the task - 🔴 > 🟠 > 🟡  
 > Tasks involve finding text and media resources, writing descriptions and planning content
