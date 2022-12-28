@@ -1,0 +1,20 @@
+{
+  "short_name": "minimaList",
+  "name": "minimaList, the work distribution tracker",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "16x16 32x32 96x96",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo500.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#000000"
+}
