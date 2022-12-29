@@ -1,5 +1,6 @@
 .navbar-container {
     position: fixed;
+    user-select: none;
 }
 
 .navbar {
@@ -147,7 +148,8 @@
         border: 0px;
         border-bottom-width: 2px;
         border-style: ridge;
-        padding-bottom: 10px;
+        padding-bottom: 1vh;
+        z-index: -1;
     }
     .navlink:active {
         transition: 100ms;
