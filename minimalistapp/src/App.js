@@ -19,7 +19,7 @@ function App() {
         <Header />
         <Navbar setTheme={setTheme} isLightTheme={isLightTheme}/>
         <Routes>
-          <Route path='/' element={<Home />}></Route>
+          <Route path='/' element={<Home isLightTheme={isLightTheme}/>}></Route>
           <Route path='/test' element={<>Works</>}></Route>
         </Routes>
     </div>
