@@ -50,10 +50,9 @@
 @media screen and (max-width: 800px) {
     .header {
         height: 100px;
-        padding-left: 0%;
     }
     .logo {
-        visibility: hidden;
+        display: none;
     }
     .header.mini {
         height: 60px;

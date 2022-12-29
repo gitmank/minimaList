@@ -1,0 +1,9 @@
+.home-spacer {
+    height: 150px;
+}
+
+@media screen and (max-width: 800px) {
+    .home-spacer {
+        height: 180px;
+    }
+}

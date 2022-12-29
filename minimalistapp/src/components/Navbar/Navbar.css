@@ -1,3 +1,7 @@
+.navbar-container {
+    position: fixed;
+}
+
 .navbar {
     width: 100%;
     display: flex;
@@ -26,10 +30,24 @@
     border-color: black;
 }
 
-.navbar.light.mini, .navbar.dark.mini {
+.navbar.mini {
     font-size: large;
     height: 60px;
     margin-top: 60px;
+}
+
+#dropdown_menu {
+    display: none;
+}
+
+#collapsible_part_of_navbar {
+    display: none;
+}
+
+#inline_menu {
+    display: flex;
+    width: 40%;
+    justify-content: space-around;
 }
 
 .navlink {
@@ -50,5 +68,89 @@
         font-size: medium;
         height: 60px;
         margin-top: 60px;
+    }
+    #inline_menu {
+        display: none;
+    }
+    #dropdown_menu {
+        display: flex;
+        font-size: 3rem;
+    }
+    .pluscross-switch {
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+    }
+      
+    .pluscross-checkbox {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .pluscross-text {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    
+    .pluscross-text:before {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        content: '+';
+        height: 30px;
+        width: 30px;
+        left: 5px;
+        bottom: 5px;
+        transition-duration: 0.5s;
+    }
+    
+    .pluscross-checkbox:checked + .pluscross-text:before {
+        transform: rotateZ(135deg);
+        transition-duration: 0.5s;
+        content: '+';
+    }
+    .collapsibleMenu {
+        height: 40vh;
+        width: 100%;
+        margin-top: 180px;
+        position: fixed;
+        border-width: 0px;
+        border-bottom-width: 2px;
+        border-style: solid;
+        padding: 2% 10%;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    .collapsibleMenu.mini {
+        transition: 200ms;
+        margin-top: 120px;
+    }
+    
+    .collapsibleMenu.light {
+        color: black;
+        background-color: white;
+        border-color: black;
+    }
+    .collapsibleMenu.dark {
+        color: white;
+        background-color: black;
+        border-color: white;
+    }
+    .navlink {
+        border: 0px;
+        border-bottom-width: 2px;
+        border-style: ridge;
+        padding-bottom: 10px;
+    }
+    .navlink:active {
+        transition: 100ms;
+        transform: translateX(20px);
     }
 }

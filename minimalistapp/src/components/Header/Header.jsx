@@ -17,7 +17,7 @@ const Header = () => {
         };
     }, []);
     return(
-        <header className={(scrollPosition>50)? 'header mini':'header'}>
+        <header className={(scrollPosition > 100)? 'header mini':'header'}>
             <Tilt
                 className="parallax-effect-img"
                 tiltMaxAngleX={40}
@@ -27,9 +27,9 @@ const Header = () => {
                 scale={1.1}
                 gyroscope={true}
             >
-                <img src={logo} className={(scrollPosition>50)? 'logo mini':'logo'} alt="minimalist logo" />
+                <img src={logo} className={(scrollPosition>100)? 'logo mini':'logo'} alt="minimalist logo" />
             </Tilt>
-            <h1 className={(scrollPosition > 50)? 'title mini':'title'}>minimaList</h1>
+            <h1 className={(scrollPosition > 100)? 'title mini':'title'}>minimaList</h1>
         </header>
     );
 }
