@@ -1,6 +1,7 @@
 .navbar-container {
     position: fixed;
     user-select: none;
+    z-index: 3;
 }
 
 .navbar {
@@ -15,7 +16,7 @@
     border-style: solid;
     position: fixed;
     margin-top: 120px;
-    transition: 0.2s;
+    transition: 100ms;
     font-size: larger;
 }
 
@@ -37,17 +38,17 @@
     margin-top: 60px;
 }
 
-#dropdown_menu {
+#dropdown-menu {
     display: none;
 }
 
-#collapsible_part_of_navbar {
+#collapsible-part-of-navbar {
     display: none;
 }
 
-#inline_menu {
+#inline-menu {
     display: flex;
-    width: 40%;
+    width: 50%;
     justify-content: space-around;
 }
 
@@ -70,10 +71,10 @@
         height: 60px;
         margin-top: 60px;
     }
-    #inline_menu {
+    #inline-menu {
         display: none;
     }
-    #dropdown_menu {
+    #dropdown-menu {
         display: flex;
         font-size: 3rem;
     }
@@ -122,6 +123,7 @@
         width: 100%;
         margin-top: 180px;
         position: fixed;
+        z-index: 2;
         border-width: 0px;
         border-bottom-width: 2px;
         border-style: solid;

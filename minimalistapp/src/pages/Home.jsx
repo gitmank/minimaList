@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import './Home.css';
+import teamnamesOne from '../resources/teamnames-one.png';
 
 const Home = ({ isLightTheme }) => {
-    console.log(isLightTheme)
     return(
         <div id='public-home'>
             <div className='home-spacer'></div>
@@ -14,17 +14,29 @@ const Home = ({ isLightTheme }) => {
                         <h1>pea<span>k.</span></h1>
                     </span>
                     <p className='hero-secondary-text'>Crush your goals, we'll take care of the rest 🫡</p>
-                    <p className='hero-small-text'>Create a team. Assign tasks. Mark as completed. It's that simple!</p>
+                    <p className='hero-small-text'>Create a team. Assign tasks. Mark as ✅<br></br>It's that simple!</p>
                     <h3 id='hero-CTA' className={isLightTheme? 'light': 'dark'}>
-                            <Link className='CTA-link' to='/onboarding'>Create a team ➮</Link>
+                            <Link id='toFeatures' className='CTA-link' to='/onboarding'>Create a team ➮</Link>
                     </h3>
                 </div>
             </div>
-            <div id='feature_one' className={isLightTheme? 'light': 'dark'}>
-                <div id='featureOne-paneOne'>
-                    <span className='feature-title'>Generate a quirky Team Code</span>
+            <div id='features' className={isLightTheme? 'light': 'dark'}>
+                <div id='feature-pane-one' className='featurePane'>
+                    <img className='paneOne-image' src={teamnamesOne} alt="sample usernames" />
+                    <span className='feature-title'>You get a quirky team code<br></br>\(• ◡ •)/</span>
                 </div>
-                <div id='featureOne-paneTwo'></div>
+                <div id='feature-pane-two' className='featurePane'>
+                    <span className='feature-title'>🚧 🦺 work in progress 🦺 🚧</span>
+                </div>
+                <div id='feature-pane-three' className='featurePane'>
+                    <span className='feature-title'>🚧 🦺 work in progress 🦺 🚧</span>
+                </div>
+                <div id='feature-pane-four' className='featurePane'>
+                    <span className='feature-title'>🚧 🦺 work in progress 🦺 🚧</span>
+                </div>
+            </div>
+            <div id='footer'>
+                <div style={{height: '300px'}}><h1>Footer</h1></div>
             </div>
         </div>
     )
