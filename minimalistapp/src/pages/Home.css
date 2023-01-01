@@ -134,11 +134,26 @@
 #feature-pane-one {
     background-color: chartreuse;
 }
+.feature-title {
+    font-size: 2vw;
+}
 #feature-pane-two {
     background-color: cyan;
 }
+#profession-emoji {
+    display: flex;
+    content: 'none';
+    font-size: 5vw;
+    transition: 500ms;
+}
+#profession-text {
+    font-size: 2vw;
+}
 #feature-pane-three {
     background-color: aquamarine;
+}
+.paneThree-image {
+    max-width: 35vw;
 }
 #feature-pane-four {
     background-color:hotpink;
@@ -148,9 +163,7 @@
     width: 35vw;
     border-radius: 20px;
 }
-.feature-title {
-    font-size: 2vw;
-}
+
 @keyframes imageAnimation {
     0% {
         content: url('../resources/teamnames-one.png');
@@ -184,6 +197,15 @@
     }
     .paneOne-image {
         width: 55vw;
+    }
+    .paneThree-image {
+        min-width: 55vw;
+    }
+    #profession-emoji {
+        font-size: 8vw;
+    }
+    #profession-text {
+        font-size: 4vw;
     }
 }
 @media screen and (max-width: 800px) {
@@ -250,11 +272,24 @@
         height: 50vh;
         border-top-left-radius: 50px;
     }
+    #feature-pane-two {
+        gap: 30px;
+    }
     .feature-title {
         font-size: 4vw;
     }
     .paneOne-image {
         width: 70vw;
         max-width: 450px;
+    }
+    .paneThree-image {
+        min-width: 60vw;
+        max-width: 300px;
+    }
+    #profession-emoji {
+        font-size: 10vw;
+    }
+    #profession-text {
+        font-size: 4vw;
     }
 }
