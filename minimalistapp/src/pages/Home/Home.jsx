@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import './Home.css';
-import teamnamesOne from '../resources/teamnames-one.png';
-import paneThreeImage from '../resources/task-division.png';
-import { professions, professionsList } from '../constants';
-import { useState, useEffect } from 'react';
+import teamnamesOne from '../../resources/teamnames-one.png';
+import paneThreeImage from '../../resources/task-division.png';
+import { professionsList } from '../../constants';
+import { useEffect } from 'react';
 
 const Home = ({ isLightTheme }) => {
 
@@ -32,7 +32,7 @@ const Home = ({ isLightTheme }) => {
                         <h2>that </h2>
                         <h1>pea<span>k.</span></h1>
                     </span>
-                    <p className='hero-secondary-text'>Crush your goals, we'll take care of the rest 🫡</p>
+                    <p className='hero-secondary-text'>Crush your goals, we'll take care of the rest!</p>
                     <p className='hero-small-text'>Create a team. Assign tasks. Mark as ✅<br></br>It's that simple!</p>
                     <h3 id='hero-CTA' className={isLightTheme? 'light': 'dark'}>
                             <Link id='toFeatures' className='CTA-link' to='/onboarding'>Create a team ➮</Link>
@@ -58,8 +58,37 @@ const Home = ({ isLightTheme }) => {
                 </div>
             </div>
             <div id='footer' className={isLightTheme? ' light': ' dark'}>
-
+                <div className='footer-column'>
+                    <h2 className='footer-heading'>Project Info</h2>
+                    <div className='footer-links-container'>
+                        <h4>⎋ FAQs</h4>
+                        <h4>⎋ GitHub repo</h4>
+                        <h4>⎋ minimalist API</h4>
+                    </div>
+                </div>
+                <div className='footer-column'>
+                    <h2 className='footer-heading'>Contact Us</h2>
+                    <div className='footer-links-container'>
+                        <h4>⎋ Email</h4>
+                        <h4>⎋ Form</h4>
+                    </div>
+                </div>
+                <div className='footer-column'>
+                    <h2 className='footer-heading'>Development</h2>
+                    <div className='footer-links-container'>
+                        <h4>⎋ Admin Account</h4>
+                        <h4>⎋ Manage Data</h4>
+                    </div>
+                </div>
+                <div className='footer-column'>
+                    <h2 className='footer-heading'>minimaList 2023</h2>
+                    <div className='footer-links-container'>
+                        <h4>‣ Version 0.0.0</h4>
+                        <h4>‣ Completion<br></br>| 🔴⚪️⚪️⚪️⚪️ |</h4>
+                    </div>
+                </div>
             </div>
+            <div id='footer-credit'>made with ♡ by mank</div>
         </div>
     )
 }

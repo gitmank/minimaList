@@ -1,10 +1,10 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
+import Home from './pages/Home/Home';
 import Header from './components/Header/Header'
 import Navbar from './components/Navbar/Navbar'
 import { useState, useEffect } from 'react';
-import { navItemsForHome } from './constants';
+import { navItemsForHome, navItemsForOnboarding } from './constants';
 
 function App() {
   // stored states
@@ -47,7 +47,7 @@ function App() {
           <Route path='/onboarding' element={
             <>
               <Navbar  
-                navItems={navItemsForHome}
+                navItems={navItemsForOnboarding}
                 isLightTheme={isLightTheme} 
                 scrollPosition={scrollPosition}/>
             </>

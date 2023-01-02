@@ -13,10 +13,10 @@
     transition: 500ms;
 }
 #hero-pane.dark {
-    background-image: url('../resources/black-mountains-background.jpg');
+    background-image: url('../../resources/black-mountains-background.jpg');
 }
 #hero-pane.light {
-    background-image: url('../resources/blue-mountains-background.jpeg');
+    background-image: url('../../resources/blue-mountains-background.jpeg');
 }
 #hero-text {
     color: black;
@@ -163,22 +163,64 @@
     width: 35vw;
     border-radius: 20px;
 }
+#footer {
+    display: grid;
+    height: 250px;
+    width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    padding: 2% 5%;
+    border: 0;
+    border-top: 2px;
+    border-bottom: 2px;
+    border-style: solid;
+}
+#footer.light {
+    background-color: white;
+    color: black;
+    border-color: black;
+}
+#footer.dark {
+    background-color: black;
+    color: white;
+    border-color: white;
+}
+.footer-column {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 3% 5%;
+}
+.footer-headings {
+    font-size: 1vw;
+}
+#footer-credit {
+    display: flex;  
+    justify-content: center;
+    width: 100%;
+    padding: 10px 0%;
+    color: rgb(0, 255, 149);
+    background-color: black;
+}
 
 @keyframes imageAnimation {
     0% {
-        content: url('../resources/teamnames-one.png');
+        content: url('../../resources/teamnames-one.png');
         transform: scale(1);
     }
     33% {
-        content: url('../resources/teamnames-two.png');
+        content: url('../../resources/teamnames-two.png');
         transform: scale(1);
     }
     66% {
-        content: url('../resources/teamnames-three.png');
+        content: url('../../resources/teamnames-three.png');
         transform: scale(1);
     }
     100% {
-        content: url('../resources/teamnames-one.png');
+        content: url('../../resources/teamnames-one.png');
         transform: scale(1);
     }
 }
@@ -206,6 +248,14 @@
     }
     #profession-text {
         font-size: 4vw;
+    }
+    #footer {
+        padding: 20px;
+        height: 250px;
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .footer-column {
+        font-size: 0.9rem;
     }
 }
 @media screen and (max-width: 800px) {
@@ -269,7 +319,7 @@
         width: 90%;
         padding: 5% 2%;
         gap: 10px;
-        height: 50vh;
+        height: 400px;
         border-top-left-radius: 50px;
     }
     #feature-pane-two {
@@ -291,5 +341,13 @@
     }
     #profession-text {
         font-size: 4vw;
+    }
+    #footer {
+        padding: 3%;
+        height: 400px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .footer-column {
+        font-size: 0.9rem;
     }
 }

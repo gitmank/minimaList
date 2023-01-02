@@ -3,10 +3,19 @@
  // decides the point at which header and navbar minimize
 export const scrollLimit = 100;
 export const navItemsForHome = [
+    {link: '#', text: 'Dashboard'},
     {link: '#toFeatures', text: 'Features'},
     {link: '#footer', text: 'About'},
     {link: '#public-home', text: 'Top'},
 ];
+
+export const navItemsForOnboarding = [
+    {link: '/', text: 'Home'},
+    {link: '#', text: 'Dashboard'},
+    {link: '', text: ''},
+    {link: '', text: ''},
+];
+
 export const professions = [
     {text: 'collaboration tool for everyone', emoji: '👩🏽 👨🏻 🧑🏻 🧔🏾‍♂️ 👩🏻'},
     {text: 'collaboration tool for developers', emoji: '👩🏽‍💻 👨🏻‍💻 🧑🏻‍💻 👨🏾‍💻 👩🏻‍💻'},
