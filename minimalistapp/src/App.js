@@ -5,6 +5,7 @@ import Header from './components/Header/Header'
 import Navbar from './components/Navbar/Navbar'
 import { useState, useEffect } from 'react';
 import { navItemsForHome, navItemsForOnboarding } from './constants';
+import Onboarding from './pages/Onboarding/Onboarding';
 
 function App() {
   // stored states
@@ -42,16 +43,16 @@ function App() {
                 navItems={navItemsForHome}
               />
               <Home isLightTheme={isLightTheme}/>
-            </>}>
-          </Route>
-          <Route path='/onboarding' element={
+            </>} />
+          <Route path='/onboarding/*' element={
             <>
               <Navbar  
                 navItems={navItemsForOnboarding}
                 isLightTheme={isLightTheme} 
                 scrollPosition={scrollPosition}/>
+              <Onboarding isLightTheme={isLightTheme} />
             </>
-          }></Route>
+          } />
         </Routes>
     </div>
   );

@@ -153,7 +153,8 @@
     background-color: aquamarine;
 }
 .paneThree-image {
-    max-width: 35vw;
+    width: 35vw;
+    max-width: 500px;
 }
 #feature-pane-four {
     background-color:hotpink;
@@ -161,6 +162,7 @@
 .paneOne-image {
     animation: imageAnimation 10s ease-in-out infinite;
     width: 35vw;
+    max-width: 500px;
     border-radius: 20px;
 }
 #footer {

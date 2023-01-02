@@ -35,7 +35,7 @@ const Home = ({ isLightTheme }) => {
                     <p className='hero-secondary-text'>Crush your goals, we'll take care of the rest!</p>
                     <p className='hero-small-text'>Create a team. Assign tasks. Mark as ✅<br></br>It's that simple!</p>
                     <h3 id='hero-CTA' className={isLightTheme? 'light': 'dark'}>
-                            <Link id='toFeatures' className='CTA-link' to='/onboarding'>Create a team ➮</Link>
+                            <Link id='toFeatures' className='CTA-link' to='/onboarding'>Get Started ➮</Link>
                     </h3>
                 </div>
             </div>

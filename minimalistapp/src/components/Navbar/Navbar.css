@@ -48,8 +48,9 @@
 
 #inline-menu {
     display: flex;
-    width: 50%;
-    justify-content: space-around;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 10%;
 }
 
 .navlink {
@@ -119,7 +120,8 @@
         content: '+';
     }
     .collapsibleMenu {
-        height: 40vh;
+        min-height: 300px;
+        height: max-content;
         width: 100%;
         margin-top: 180px;
         position: fixed;
