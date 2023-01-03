@@ -5,8 +5,12 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
-const { response } = require('express');
-const schemaSetup = require('./controllers/schemaSetup');
+
+// controllers
+const schemaSetter = require('./controllers/schemaSetter');
+const authenticator = require('./controllers/authenticator');
+const sessionManager = require('./controllers/sessionManager');
+const teamManager = require('./controllers/teamManager');
 
 // express server
 let app = express();
@@ -22,12 +26,29 @@ mongoose.connect(process.env.ATLAS_CONNECTION_STRING, { useNewUrlParser: true, u
     .then(console.log('MongoDB Atlas connected'))
     .catch((error) => { console.log('MongoDB Atlas failed to connect') })
 
-// creating user schema and models
-let User = schemaSetup.setUserSchema();
-let Task = schemaSetup.setTaskSchema();
-let Team = schemaSetup.setTeamSchema();
+// getting schema and models
+let User    = schemaSetter.setUserSchema();
+let Task    = schemaSetter.setTaskSchema();
+let Team    = schemaSetter.setTeamSchema();
+// let Hour    = schemaSetter.setHourSchema();
+// let APIkey  = schemaSetter.setAPIkeySchema();
+let Session = schemaSetter.setSessionSchema();
 
 // default route used for ping test
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
     res.status(200).end('pong');
 });
+
+// PRIVATE routes accessible to frontend only
+
+// signup route
+app.post('/signup', (req, res) => authenticator.signup(req, res, bcrypt, User));
+
+// store session route
+app.post('/getSessionID', (req, res) => sessionManager.setSession(req, res, Session));
+
+// create team route
+app.post('/createTeam', (req, res) => teamManager.createTeam(req, res, Team));
+
+// join team route
+app.post('/joinTeam', (req, res) => teamManager.joinTeam(req, res, Team, User));
