@@ -3,7 +3,7 @@ DSN2099 - 4th semester project requirement
 
 ## About
 a work distribution tracker for small teams to collaborate  
-progress - ```design stage```
+progress - ```developing authentication pages and server routes```
 
 
 ## Goal
