@@ -1,0 +1,107 @@
+#question-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 600px;
+    width: 100%;
+    text-align: center;
+}
+
+#question {
+    font-size: 40px;
+}
+
+#response-area {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 20px;
+    align-items: center;
+}
+#response-field {
+    padding-bottom: 5px;
+    display: flex;
+    background-color: inherit;
+    color: inherit;
+    border: 0;
+    border-bottom: 2px;
+    border-style: solid;
+    border-radius: 0px;
+    width: 80%;
+    max-width: 500px;
+    font-size: 20px;
+    outline: none;
+    transition: 300ms;
+}
+#response-field:focus {
+    border-bottom-width: 3px;
+    padding: 1% 5px;
+}
+.validation-message {
+    font-size: medium;
+    color: gray;
+}
+#error-message {
+    color: rgb(251, 87, 87);
+}
+#button-area {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 100px;
+    user-select: none;
+}
+.button {
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background-color: rgb(130, 255, 226);
+    border: 0;
+    border-radius: 100%;
+    transition: 300ms;
+    color: black;
+}
+#password-indicator {
+    background-color: rgb(255, 127, 127);
+    font-size: 10px;
+    display: none;
+}
+#next-button:hover {
+    border-radius: 10px;
+    box-shadow: 5px 5px grey;
+}
+#next-button:active {
+    box-shadow: none;
+    transform: translate3d(2px, 2px, 0px);
+}
+
+@media screen and (max-width: 800px) {
+    #question-container {
+        height: 500px;
+    }
+    #question {
+        font-size: 30px;
+    }
+    #response-area {
+        width: 90%;
+        gap: 20px;
+    }
+    #response-field {
+        padding: 0%;
+        width: 80%;
+        max-width: 300px;
+        font-size: 14px;
+        padding-bottom: 5px;
+    }
+    #response-field:focus {
+        padding: 2% 1%;
+    }
+    #button-area {
+        gap:50px
+    }
+}

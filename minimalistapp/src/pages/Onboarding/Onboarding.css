@@ -120,8 +120,8 @@
         height: max-content;
     }
     #page-title {
-        margin-top: 50px;
-        margin-bottom: 25px;
+        margin-top: 40px;
+        margin-bottom: 10px;
         font-size: 0.6rem;
     }
     #card-deck:hover {
@@ -130,6 +130,8 @@
     #card-deck {
         height: max-content;
         box-shadow: 4px 4px green, 6px 6px grey;
+        padding: 2% 3%;
+        width: 100%;
     }
     #card-container {
         gap: 5%;

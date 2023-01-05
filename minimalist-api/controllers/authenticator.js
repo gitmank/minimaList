@@ -46,9 +46,21 @@ const setSession = async (req, res, Session) => {
     })
 }
 
+const checkUserExists = async (req, res, User) => {
+    console.log(req.body.username)
+    const data = await User.findOne(
+        { username: req.body.username },
+    );
+    if(data)
+        res.status(200).end('1');
+    else
+        res.status(200).end('0');
+}
+
 module.exports = {
-    signup: signup,
-    setSession: setSession,
+    signup:             signup,
+    setSession:         setSession,
+    checkUserExists:    checkUserExists,
 }
 
 // not for export

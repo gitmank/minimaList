@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import '../../pages/Onboarding/Onboarding.css';
-import { authOptions } from '../../constants';
+import '../pages/Onboarding/Onboarding.css';
+import { authOptions } from '../constants';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,9 +33,9 @@ const AuthOptions = () => {
         if(count === 0)
             navigate('/onboarding/signin', { replace: false })
         else if(count === 1)
-            navigate('/onboarding/joinTeam', { replace: false })
+            navigate('/onboarding/signup/1', { replace: false })
         else if(count === 2)
-            navigate('/onboarding/createTeam', { replace: false })
+            navigate('/onboarding/signup/0', { replace: false })
     }
 
     // to handle when arrow keys are pressed

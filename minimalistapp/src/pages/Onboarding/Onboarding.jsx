@@ -1,6 +1,7 @@
 import './Onboarding.css';
 import { Routes, Route } from 'react-router-dom';
-import AuthOptions from '../../views/AuthOptions/AuthOptions';
+import AuthOptions from '../../views/AuthOptions';
+import SignUp from './SignUp';
 import { useState } from 'react';
 
 const Onboarding = ({ isLightTheme }) => {
@@ -14,10 +15,8 @@ const Onboarding = ({ isLightTheme }) => {
                         <Route path='/' element={
                             <AuthOptions />
                         } />
-                        <Route path='/signin' element={<>Sign In</>} />
-                        <Route path='/joinTeam' element={<>Join Team</>} />
-                        <Route path='/createTeam' element={<>Create Team</>} />
-                        <Route path='/signup' element={<>Sign Up</>} />
+                        <Route path='/signin/*' element={<>Sign In</>} />
+                        <Route path='/signup/:hasTeam/*' element={<><SignUp /></>} />
                     </Routes>
                 </div>
             </div>

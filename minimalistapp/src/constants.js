@@ -98,6 +98,57 @@ export const authOptions = [
             privacyPoints[3],
             privacyPoints[6]
         ],
-        color: 'royalblue',
+        color: 'yellow',
     },
 ]
+
+export const questions = [
+    {
+        type:           'text',
+        autofill:      'given-name',
+        question:       'What is your first name?',
+        placeholder:    'first name',
+        required:       true,
+        info:           'only shown to team members',
+    },
+    {
+        type:           'text',
+        autofill:      'family-name',
+        question:       'What is your last name?',
+        placeholder:    'last name',
+        required:       false,
+        info:           'this is optional',
+    },
+    {
+        type:           'text',
+        autofill:      'email',
+        question:       'What is your email ID?',
+        placeholder:    'email',
+        required:       true,
+        info:           'we promise not to spam',
+    },
+    {
+        type:           'text',
+        autofill:      'off',
+        question:       'Pick a unique username',
+        placeholder:    'username',
+        required:       true,
+        info:           'used to identify you in the app',
+    },
+    {
+        type:           'password',
+        autofill:      'new-password',
+        question:       'Set a strong password',
+        placeholder:    'password',
+        required:       true,
+        info:           'used for authentication',
+    },
+]
+
+export const checks = {
+    checkNull: (value) => {
+        return value === ''? true: false;
+    },
+}
+
+export const serverURL = 'http://192.168.0.101:4000';

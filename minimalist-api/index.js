@@ -52,3 +52,6 @@ app.post('/createTeam', (req, res) => teamManager.createTeam(req, res, Team));
 
 // join team route
 app.post('/joinTeam', (req, res) => teamManager.joinTeam(req, res, Team, User));
+
+// route to check if user exists
+app.post('/userExists', (req, res) => authenticator.checkUserExists(req, res, User));
