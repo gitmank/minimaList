@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 
 const setUserSchema = () => {
     let userSchema = new mongoose.Schema({
-        username:       { type: String, required: true, minLength: 5, maxLength: 20, unique: true },
-        password:       { type: String, required: true, maxLength: 100 },
-        name:           { type: String, default: JSON.stringify({ first: 'anon', last: '' }) },
-        email:          { type: String, maxLength: 50 },
-        verified:       { type: Boolean, default: false },
-        created:        { type: Date, default: new Date() },
-        teams:          { type: Array, default: [] },
+        username:   { type: String, required: true, minLength: 5, maxLength: 20, unique: true },
+        password:   { type: String, required: true, maxLength: 100 },
+        name:       { type: String, default: JSON.stringify({ first: 'anon', last: '' }) },
+        email:      { type: String, maxLength: 50 },
+        verified:   { type: Boolean, default: false },
+        created:    { type: Date, default: new Date() },
+        teams:      { type: Array, default: [] },
     })
     
     let User = mongoose.model("users", userSchema);

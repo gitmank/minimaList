@@ -46,7 +46,20 @@ const joinTeam = async (req, res, Team, User) => {
     }
 }
 
+const checkTeamCodeExists = async(req, res, Team) => {
+    if(req.body.key !== process.env.FRONTEND_VERIFICATION_TOKEN) {
+        res.status(401).end('invalid');
+        return null;
+    }
+    const data = await Team.findOne({ teamcode: req.body.teamcode }, );
+    if (data)
+        res.status(200).end('1');
+    else
+        res.status(200).end('0');
+}
+
 module.exports = {
-    createTeam: createTeam,
-    joinTeam: joinTeam,
+    createTeam:             createTeam,
+    joinTeam:               joinTeam,
+    checkTeamCodeExists:    checkTeamCodeExists,
 }

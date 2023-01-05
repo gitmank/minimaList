@@ -10,10 +10,10 @@ const setSession = async (req, res, Session) => {
     let sesssionID = await getSessionID();
     let expires = new Date(new Date().setDate(new Date().getDate() + 15));
     let temp = new Session({
-        id: sesssionID,
-        expires: expires,
-        lastUsed: new Date(),
-        username: req.body.username
+        id:         sesssionID,
+        expires:    expires,
+        lastUsed:   new Date(),
+        username:   req.body.username
     })
 
     temp.save((error, data) => {

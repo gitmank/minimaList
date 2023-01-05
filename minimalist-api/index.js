@@ -12,7 +12,7 @@ const authenticator = require('./controllers/authenticator');
 const sessionManager = require('./controllers/sessionManager');
 const teamManager = require('./controllers/teamManager');
 
-// express server
+// express server setup
 let app = express();
 app.listen(process.env.PORT);
 
@@ -28,7 +28,7 @@ mongoose.connect(process.env.ATLAS_CONNECTION_STRING, { useNewUrlParser: true, u
 
 // getting schema and models
 let User = schemaSetter.setUserSchema();
-let Task = schemaSetter.setTaskSchema();
+// let Task = schemaSetter.setTaskSchema();
 let Team = schemaSetter.setTeamSchema();
 // let Hour    = schemaSetter.setHourSchema();
 // let APIkey  = schemaSetter.setAPIkeySchema();
@@ -54,7 +54,7 @@ app.post('/createTeam', (req, res) => teamManager.createTeam(req, res, Team));
 app.post('/joinTeam', (req, res) => teamManager.joinTeam(req, res, Team, User));
 
 // route to check if user exists
-app.post('/userExists', (req, res) => authenticator.checkUserExists(req, res, User));
+app.post('/usernameExists', (req, res) => authenticator.checkUserExists(req, res, User));
 
 // route to check if team code exists
-app.post('/checkTeamCodeExists', (req, res) => authenticator.checkTeamCodeExists(req, res, Team));
+app.post('/teamcodeExists', (req, res) => teamManager.checkTeamCodeExists(req, res, Team));
