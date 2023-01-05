@@ -4,7 +4,8 @@ const setUserSchema = () => {
     let userSchema = new mongoose.Schema({
         username:   { type: String, required: true, minLength: 5, maxLength: 20, unique: true },
         password:   { type: String, required: true, maxLength: 100 },
-        name:       { type: String, default: JSON.stringify({ first: 'anon', last: '' }) },
+        firstname:  { type: String, default: 'Anon' },
+        lastname:   { type: String },
         email:      { type: String, maxLength: 50 },
         verified:   { type: Boolean, default: false },
         created:    { type: Date, default: new Date() },

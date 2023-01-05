@@ -1,9 +1,13 @@
-const setSession = async (req, res, Session) => {
+const setSession = async (req, res, bcrypt, Session, User) => {
     if(req.body.key !== process.env.FRONTEND_VERIFICATION_TOKEN) {
         res.status(401).end('invalid');
         return null;
     }
-    if(req.body.key !== process.env.FRONTEND_VERIFICATION_TOKEN) {
+    let { password } = await User.findOne(
+        { username: req.body.username }
+    )
+    let passwordsMatch = await bcrypt.compare(req.body.password, password);
+    if(!passwordsMatch) {
         res.status(401).end('invalid');
         return null;
     }
@@ -17,8 +21,9 @@ const setSession = async (req, res, Session) => {
     })
 
     temp.save((error, data) => {
-        if(!error)
-            res.status(200).send(JSON.stringify(data));
+        if(!error) {
+            res.status(200).send(JSON.stringify(data.id));
+        }
         else 
             res.status(400).end('invalid');
     })

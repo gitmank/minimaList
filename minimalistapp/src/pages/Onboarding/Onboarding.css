@@ -134,11 +134,14 @@
         width: 100%;
     }
     #card-container {
-        gap: 5%;
-        padding: 3%;
+        gap: 10px;
+        padding: 20px 5px;
     }
     .cardnav {
         font-size: 100px;
+    }
+    #card-back {
+        transform: rotateZ(180deg);
     }
     #card-title {
         font-size: x-large;
@@ -146,6 +149,7 @@
     #card{
         gap: 10px;
         font-size: medium;
+        padding: 2%;
     }
     #privacy-list {
         gap: 5px;

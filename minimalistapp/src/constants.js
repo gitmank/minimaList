@@ -141,14 +141,14 @@ export const questions = [
         question:       'Set a strong password',
         placeholder:    'password',
         required:       true,
-        info:           'used for authentication',
+        info:           'tap the -_- button to view',
     },
 ]
 
-export const checks = {
-    checkNull: (value) => {
-        return value === ''? true: false;
-    },
-}
-
-export const serverURL = 'http://192.168.0.101:4000';
+export const indicatorStyles = [
+    'linear-gradient(to right, rgb(255, 64, 19), rgb(255, 106, 0))',
+    'linear-gradient(to right, rgb(255, 106, 0), rgb(255, 170, 0))',
+    'linear-gradient(to right, rgb(255, 170, 0), rgb(254, 199, 0))',
+    'linear-gradient(to right, rgb(254, 199, 0), rgb(217, 235, 55))',
+    'linear-gradient(to right, rgb(217, 235, 55), rgb(119, 187, 65))',
+]

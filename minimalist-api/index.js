@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 app.post('/signup', (req, res) => authenticator.signup(req, res, bcrypt, User));
 
 // store session route
-app.post('/getSessionID', (req, res) => sessionManager.setSession(req, res, Session));
+app.post('/getSessionID', (req, res) => sessionManager.setSession(req, res, bcrypt, Session, User));
 
 // create team route
 app.post('/createTeam', (req, res) => teamManager.createTeam(req, res, Team));

@@ -1,16 +1,18 @@
 import './SignUp.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { questions, checks, serverURL } from '../../constants';
+import { questions } from '../../constants';
 import { useEffect } from 'react';
 import FormBody from '../../views/FormBody';
+import { inputValidators, submitHandlers } from './validators';
 
-const SignUp = () => {
+const SignUp = ({ setAuthenticatedUser }) => {
 
+    // hooks
     const [fieldNumber, setFieldNumber] = useState(0);
     const { hasTeam } = useParams();
-    const { checkNull } = checks;
-
+    const [formInputs, saveInput] = useState([]);
+    const navigate = useNavigate();
     useEffect(() => {
         const indicator = document.getElementById('password-indicator');
         indicator.addEventListener('click', showHidePass, { passive: true });
@@ -19,91 +21,54 @@ const SignUp = () => {
         })
     })
 
-    const setErrorMessage = (message) => {
-        document.getElementById('error-message').textContent = message;
-    }
-
-    const nullValidation = (value) => {
-        if(value) {
-            setErrorMessage('')
-            return true;
-        }
-        else {
-            setErrorMessage('this is a required field');
-            return false;
-        }
-    }
-
-    const lengthValidation = (value, length) => {
-        if(value.length >= length) {
-            return true
-        }
-        else {
-            setErrorMessage('must have at least ' + length + ' characters')
-            return false;
-        }
-    }
-
-    const mailFormatValidation = (value) => {
-        if((value.includes('@')) && (value.includes('.')))
-            return true;
-        else {
-            setErrorMessage('this does not seem valid')
-            return false;
-        }
-    }
-
-    const usernameAvailableValidation = async (value) => {
-        const url = serverURL.concat('/userExists');
-        const userExists = await fetch(url, {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: value })
-        })
-        .then(response => { return response.json() });
-        if(userExists) {
-            setErrorMessage('this username is unavailable');
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
-    const validateEmail = (value) => {
-        if(nullValidation(value))
-            if(lengthValidation(value, 6))
-                mailFormatValidation(value)
-    }
-    const validateFirstname = (value) => {
-        nullValidation(value);
-    }
-    const validateLastname = () => {
-        return null;
-    }
-    const validateUsername = (value) => {
-        if(nullValidation(value))
-            if(lengthValidation(value, 6))
-                usernameAvailableValidation(value)
-    }
-    const validatePassword = () => {
-        console.log('password')
-    }
-
-    const validateInput = [validateFirstname, validateLastname, validateEmail, validateUsername, validatePassword];
-
     const handleInputChange = (event) => {
         const value = event.target.value
-        validateInput[fieldNumber](value);
+        inputValidators[fieldNumber](value);
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        const value = document.getElementById('response-field').value;
+        const allValid = await submitHandlers[fieldNumber](value);
+        if(!allValid) {
+            return false;
+        }
+        const temp = formInputs;
+        temp.push(value);
+        saveInput(temp);
         if(fieldNumber === 4)
-            setFieldNumber(0)
+            handleFormSubmission();
         else
             setFieldNumber(fieldNumber+1)
         document.getElementById('response-field').value = '';
         document.getElementById('error-message').textContent = '';
+    }
+
+    const handleFormSubmission = async () => {
+        const url = process.env.REACT_APP_SERVER_URL.concat('/signup');
+        const user = await fetch(url, {
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                firstname: formInputs[0],
+                lastname: formInputs[1],
+                email: formInputs[2],
+                username: formInputs[3],
+                password: formInputs[4],
+                key: process.env.REACT_APP_FRONTEND_VERIFICATION_TOKEN
+            })
+        })
+        .then(response => { return response.json() });
+        if(user === 'invalid') {
+            navigate(0);
+            alert('It pains us to say there was an error. Please try again.');
+        }
+        else {
+            setAuthenticatedUser(user.username, user._id, user.firstname)
+            if(hasTeam==='1')
+                navigate('/onboarding/joinTeam', {replace: true})
+            else
+                navigate('/onboarding/createTeam', {replace: true})
+        }
     }
 
     const showHidePass = (event) => {

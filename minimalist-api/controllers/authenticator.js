@@ -8,15 +8,23 @@ const signup = async (req, res, bcrypt, User) => {
     let temp = new User({
         username:   req.body.username,
         password:   hashedPassword,
-        name:       req.body.name,
+        firstname:  req.body.firstname,
+        lastname:   req.body.lastname,
         email:      req.body.email,
         created:    new Date(),
     })
     temp.save((error, data) => {
-        if (!error)
-            res.status(200).send(JSON.stringify(data));
+        if (!error) {
+            let user = JSON.stringify({
+                id: data._id,
+                username: data.username,
+                firstname: data.firstname, 
+                key: process.env.BACKEND_VERIFICATION_TOKEN,
+            })
+            res.status(200).send(user)
+        }
         else
-            res.status(400).end('invalid');
+            res.status(400).end(JSON.stringify('invalid'));
     })
 }
 

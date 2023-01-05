@@ -1,6 +1,6 @@
 
 
-const FormBody = ({ showField, handleInputChange, handleSubmit }) => {
+const FormBody = ({ showField, handleInputChange, handleSubmit, indicatorBackground }) => {
     const { autofill, question, type, placeholder, info } = showField;
     return(
         <>

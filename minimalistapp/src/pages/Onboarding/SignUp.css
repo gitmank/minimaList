@@ -60,16 +60,18 @@
     justify-content: center;
     width: 70px;
     height: 70px;
-    background-color: rgb(130, 255, 226);
     border: 0;
     border-radius: 100%;
     transition: 300ms;
     color: black;
 }
 #password-indicator {
-    background-color: rgb(255, 127, 127);
+    background-color: rgb(251, 61, 61);
     font-size: 10px;
     display: none;
+}
+#next-button {
+    background-color: rgb(130, 255, 226);
 }
 #next-button:hover {
     border-radius: 10px;
