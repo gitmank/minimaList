@@ -27,9 +27,9 @@ mongoose.connect(process.env.ATLAS_CONNECTION_STRING, { useNewUrlParser: true, u
     .catch((error) => { console.log('MongoDB Atlas failed to connect') })
 
 // getting schema and models
-let User    = schemaSetter.setUserSchema();
-let Task    = schemaSetter.setTaskSchema();
-let Team    = schemaSetter.setTeamSchema();
+let User = schemaSetter.setUserSchema();
+let Task = schemaSetter.setTaskSchema();
+let Team = schemaSetter.setTeamSchema();
 // let Hour    = schemaSetter.setHourSchema();
 // let APIkey  = schemaSetter.setAPIkeySchema();
 let Session = schemaSetter.setSessionSchema();
@@ -55,3 +55,6 @@ app.post('/joinTeam', (req, res) => teamManager.joinTeam(req, res, Team, User));
 
 // route to check if user exists
 app.post('/userExists', (req, res) => authenticator.checkUserExists(req, res, User));
+
+// route to check if team code exists
+app.post('/checkTeamCodeExists', (req, res) => authenticator.checkTeamCodeExists(req, res, Team));
