@@ -152,3 +152,11 @@ export const indicatorStyles = [
     'linear-gradient(to right, rgb(254, 199, 0), rgb(217, 235, 55))',
     'linear-gradient(to right, rgb(217, 235, 55), rgb(119, 187, 65))',
 ]
+export const teamNamegenerationItems = {
+    animals:["cheetah", "elephant", "horse", "lion", "monkey", "panda", "rhino", "tiger", "wolf", "zebra"],
+    numbers:[0,1,2,3,4,5,6,7],
+    emotions:["happy","sad","surprise","angry","excited","scared","joyus","confused","satisfied","shocked"],
+    emojis:["😄","😢","😯","😠","😁","😨","🥲","😕","🙂","😱"],
+    colors:["violet","indigo","blue","green","yellow","orange","red"],
+    colourCodes:["#9400D3","#4B0082","#0000FF","#00FF00","#FFFF00","#FF7F00","#FF0000"],
+   }
