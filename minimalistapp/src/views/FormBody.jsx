@@ -10,7 +10,7 @@ const FormBody = ({ showField, handleInputChange, handleSubmit, indicatorBackgro
                 type={type} 
                 id='response-field' 
                 onChange={handleInputChange} 
-                maxLength='25' 
+                maxLength='50' 
                 placeholder={placeholder}
                 autoComplete={autofill} 
                 autoFocus/>

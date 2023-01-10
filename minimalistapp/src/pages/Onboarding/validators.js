@@ -77,7 +77,7 @@ const validationFunctions = {
         if(numbers > 0)
             score++
         if(score < 5)
-            setErrorMessage('use cases, symbols and numbers');
+            setErrorMessage('use both cases, symbols and numbers');
         else
             setErrorMessage('');
         return score;

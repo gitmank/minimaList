@@ -1,7 +1,7 @@
 import './SignUp.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { questions } from '../../constants';
+import { signupQuestions } from '../../constants';
 import { useEffect } from 'react';
 import FormBody from '../../views/FormBody';
 import { inputValidators, submitHandlers } from './validators';
@@ -16,14 +16,21 @@ const SignUp = ({ setAuthenticatedUser }) => {
     useEffect(() => {
         const indicator = document.getElementById('password-indicator');
         indicator.addEventListener('click', showHidePass, { passive: true });
+        window.addEventListener('keydown', handleKeyDown);
         return(() => {
             indicator.removeEventListener('click', showHidePass);
+            window.removeEventListener('keydown', handleKeyDown);
         })
     })
 
     const handleInputChange = (event) => {
         const value = event.target.value
         inputValidators[fieldNumber](value);
+    }
+
+    const handleKeyDown = (event) => {
+        if(event.key === 'Enter')
+            handleSubmit();
     }
 
     const handleSubmit = async () => {
@@ -81,7 +88,7 @@ const SignUp = ({ setAuthenticatedUser }) => {
     return(
         <div id='question-container'>
             <FormBody 
-                showField={questions[fieldNumber]} 
+                showField={signupQuestions[fieldNumber]} 
                 handleInputChange={handleInputChange}
                 handleSubmit={handleSubmit}
             />

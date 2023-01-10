@@ -1,4 +1,4 @@
-const createTeam = async (req, res, Team) => {
+const createTeam = async (req, res, Team, TeamCode) => {
     if(req.body.key !== process.env.FRONTEND_VERIFICATION_TOKEN) {
         res.status(401).end('invalid');
         return null;
@@ -8,6 +8,15 @@ const createTeam = async (req, res, Team) => {
         teamcode: req.body.teamcode,
         owner:    req.body.username,
     })
+
+    let newCode = new TeamCode({
+        teamname:   req.body.teamname,
+        teamcode:   req.body.teamcode,
+        created:    new Date(),
+        expires:    new Date(new Date().setDate(new Date().getDate() + 7)),
+    })
+
+    newCode.save();
     
     temp.save((error, data) => {
         if(!error)
@@ -42,16 +51,16 @@ const joinTeam = async (req, res, Team, User) => {
             res.status(400).end('invalid');
     }
     catch(err) {
-      res.status(500).end()
+      res.status(500).end('error')
     }
 }
 
-const checkTeamCodeExists = async(req, res, Team) => {
+const checkTeamCodeExists = async(req, res, TeamCode) => {
     if(req.body.key !== process.env.FRONTEND_VERIFICATION_TOKEN) {
         res.status(401).end('invalid');
         return null;
     }
-    const data = await Team.findOne({ teamcode: req.body.teamcode }, );
+    const data = await TeamCode.findOne({ teamcode: req.body.teamcode }, );
     if (data)
         res.status(200).end('1');
     else

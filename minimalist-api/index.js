@@ -33,6 +33,7 @@ let Team = schemaSetter.setTeamSchema();
 // let Hour    = schemaSetter.setHourSchema();
 // let APIkey  = schemaSetter.setAPIkeySchema();
 let Session = schemaSetter.setSessionSchema();
+let TeamCode = schemaSetter.setTeamCodeSchema();
 
 // default route used for ping test
 app.get('/', (req, res) => {
@@ -45,10 +46,10 @@ app.get('/', (req, res) => {
 app.post('/signup', (req, res) => authenticator.signup(req, res, bcrypt, User));
 
 // store session route
-app.post('/getSessionID', (req, res) => sessionManager.setSession(req, res, bcrypt, Session, User));
+app.post('/getSessionID', (req, res) => sessionManager.setSession(req, res, bcrypt, Session));
 
 // create team route
-app.post('/createTeam', (req, res) => teamManager.createTeam(req, res, Team));
+app.post('/createTeam', (req, res) => teamManager.createTeam(req, res, Team, TeamCode));
 
 // join team route
 app.post('/joinTeam', (req, res) => teamManager.joinTeam(req, res, Team, User));
@@ -57,4 +58,4 @@ app.post('/joinTeam', (req, res) => teamManager.joinTeam(req, res, Team, User));
 app.post('/usernameExists', (req, res) => authenticator.checkUserExists(req, res, User));
 
 // route to check if team code exists
-app.post('/teamcodeExists', (req, res) => teamManager.checkTeamCodeExists(req, res, Team));
+app.post('/teamcodeExists', (req, res) => teamManager.checkTeamCodeExists(req, res, TeamCode));

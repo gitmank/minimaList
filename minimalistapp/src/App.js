@@ -4,19 +4,27 @@ import Home from './pages/Home/Home';
 import Header from './components/Header/Header'
 import Navbar from './components/Navbar/Navbar'
 import { useState, useEffect } from 'react';
-import { navItemsForHome, navItemsForOnboarding } from './constants';
+import { navItemsForHome, navItemsForOnboarding, navItemsForDashboard } from './constants';
 import Onboarding from './pages/Onboarding/Onboarding';
 import { useCookies } from 'react-cookie';
 
 function App() {
-  // stored states
+  // hooks
   const [isLightTheme, setTheme] = useState();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isAuthSuccess, setAuthStatus] = useState(false);
-  const [cookies, setCookie] = useCookies(['session']);
   const [username, setUsername] = useState('');
   const [secret, setSecret] = useState('');
   const [name, setName] = useState('');
+  const [cookies, setCookie] = useCookies(['session']);
+
+  // adding event listeners
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+        window.removeEventListener('scroll', handleScroll);
+    };
+  });
 
   // event handlers
   const handleScroll = () => {
@@ -29,15 +37,18 @@ function App() {
     setUsername(authenticatedUsername);
     setSecret(authSecret);
     setName(firstname);
+    const url = process.env.REACT_APP_SERVER_URL.concat('/getSessionID');
+    const session = await fetch(url, {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+          username: authenticatedUsername,
+          key: process.env.REACT_APP_FRONTEND_VERIFICATION_TOKEN,
+      })
+    }).then(response => { return response.json() })
+    let expiry = Math.floor(((new Date(session.expires).getTime()) - (new Date().getTime()))/1000)
+    setCookie('session', session.id, { path: '/', maxAge: expiry });
   }
-
-  // adding event listeners
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-        window.removeEventListener('scroll', handleScroll);
-    };
-  });
 
   return (
     <div className="App">
@@ -62,8 +73,22 @@ function App() {
                 navItems={navItemsForOnboarding}
                 isLightTheme={isLightTheme} 
                 scrollPosition={scrollPosition}/>
-              <Onboarding isLightTheme={isLightTheme} setAuthenticatedUser={setAuthenticatedUser}/>
+              <Onboarding 
+                isLightTheme={isLightTheme} 
+                setAuthenticatedUser={setAuthenticatedUser}
+                authenticatedUser={username}
+                isAuthSuccess={isAuthSuccess}
+              />
             </>
+          } />
+          <Route path='/dashboard' element={
+            <>
+              <Navbar  
+              navItems={navItemsForDashboard}
+              isLightTheme={isLightTheme} 
+              scrollPosition={scrollPosition}/>
+              <div style={{height: '300px'}}></div>
+              <h1>DASHBOARD</h1>🚧 🦺 work in progress 🦺 🚧</>
           } />
         </Routes>
     </div>

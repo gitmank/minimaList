@@ -2,7 +2,12 @@
 
  // decides the point at which header and navbar minimize
 export const scrollLimit = 100;
+
+
+// nav items to be shown in navbar on different pages
+
 export const navItemsForHome = [
+    {link: '/dashboard', text: 'Dashboard'},
     {link: '#toFeatures', text: 'Features'},
     {link: '#footer', text: 'About'},
     {link: '#public-home', text: 'Top'},
@@ -12,6 +17,12 @@ export const navItemsForOnboarding = [
     {link: '/', text: 'Home'},
 ];
 
+export const navItemsForDashboard = [
+    {link: '/', text: 'Home?'},
+];
+
+
+// for home page
 export const professions = [
     {text: 'collaboration tool for everyone', emoji: '👩🏽 👨🏻 🧑🏻 🧔🏾‍♂️ 👩🏻'},
     {text: 'collaboration tool for developers', emoji: '👩🏽‍💻 👨🏻‍💻 🧑🏻‍💻 👨🏾‍💻 👩🏻‍💻'},
@@ -56,6 +67,7 @@ export class professionsList {
     }
 }
 
+// for onboarding pages
 const privacyPoints = [
     'no analytics data will be collected', 
     'cookies are optional', 
@@ -102,7 +114,9 @@ export const authOptions = [
     },
 ]
 
-export const questions = [
+
+// for signup form
+export const signupQuestions = [
     {
         type:           'text',
         autofill:      'given-name',
@@ -152,11 +166,56 @@ export const indicatorStyles = [
     'linear-gradient(to right, rgb(254, 199, 0), rgb(217, 235, 55))',
     'linear-gradient(to right, rgb(217, 235, 55), rgb(119, 187, 65))',
 ]
-export const teamNamegenerationItems = {
-    animals:["cheetah", "elephant", "horse", "lion", "monkey", "panda", "rhino", "tiger", "wolf", "zebra"],
-    numbers:[0,1,2,3,4,5,6,7],
-    emotions:["happy","sad","surprise","angry","excited","scared","joyus","confused","satisfied","shocked"],
-    emojis:["😄","😢","😯","😠","😁","😨","🥲","😕","🙂","😱"],
-    colors:["violet","indigo","blue","green","yellow","orange","red"],
-    colourCodes:["#9400D3","#4B0082","#0000FF","#00FF00","#FFFF00","#FF7F00","#FF0000"],
-   }
+
+// to generate team code
+export const teamcodeItems = [
+    ['zero ','one ', 'two ','three ','four ','five ','six ','seven ', 'eight ', 'nine '],
+
+    ['happy ','sad ','funny ','angry ','sleepy '],
+
+    ['purple ','red ','blue ','green ','yellow ','orange '],
+
+    [
+        'cats ', 'dogs ', 'owls ', 'koalas ', 'pandas ', 'foxes ', 'wolves ', 'zebras ', 'bats ', 'whales ', 
+        'bulbs ', 'discs ', 'phones ', 'coins ', 'gems ', 'keys ', 'pins ', 'dice ', 'pills ', 'cars '
+    ],
+]
+
+export const teamcodeEmoji = [
+    ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'],
+
+    ['😀', '😔', '🤪', '😠', '😪'],
+
+    ['🟣', '🔴', '🔵', '🟢', '🟡', '🟠'],
+
+    [
+        '🐱', '🐶', '🦉', '🐨', '🐼', '🦊', '🐺', '🦓', '🦇', '🐋', 
+        '💡', '💿', '📱', '🪙', '💎', '🔑', '🧷', '🎲', '💊', '🚗'
+    ],
+]
+
+export const generateTeamcode = () => {
+    let code = ''
+    let emoji = '';
+    let index = 0;
+    for(let i = 0; i < 4; i++) {
+      index = Math.floor((Math.random() * teamcodeItems[i].length))
+      code += (teamcodeItems[i][index])
+      emoji += (teamcodeEmoji[i][index])
+    }
+    return {
+      code: code,
+      emoji: emoji,
+    }
+}
+
+export const createTeamQuestions = [
+    {
+        type:           'text',
+        autofill:       'none',
+        question:       'Name your team',
+        placeholder:    'team name',
+        required:       true,
+        info:           'this can be your project name',
+    },
+]

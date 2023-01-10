@@ -60,8 +60,7 @@ const setTaskSchema = () => {
 
 const setTeamSchema = () => {
     let teamSchema = new mongoose.Schema({
-        teamname:   { type: String, minLength: 8, maxLength: 40, required: true },
-        teamcode:   { type: String },
+        teamname:   { type: String, maxLength: 40, required: true },
         owner:      { type: String, required: true },
         members:    { type: Array, default: [] },
     })
@@ -81,6 +80,19 @@ const setHourSchema = () => {
     return Hour;
 }
 
+const setTeamCodeSchema = () => {
+    let teamcodeSchema = new mongoose.Schema({
+        teamname:   { type: String },
+        teamcode:   { type: String },
+        created:    { type: Date },
+        expires:    { type: Date },
+    })
+
+    let TeamCode = mongoose.model("teamcodes", teamcodeSchema);
+
+    return TeamCode;
+}
+
 module.exports = {
     setUserSchema:      setUserSchema,
     setTaskSchema:      setTaskSchema,
@@ -88,4 +100,5 @@ module.exports = {
     setHourSchema:      setHourSchema,
     setAPIkeySchema:    setAPIkeySchema,
     setSessionSchema:   setSessionSchema,
+    setTeamCodeSchema:  setTeamCodeSchema,
 }
