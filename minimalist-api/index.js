@@ -45,6 +45,9 @@ app.get('/', (req, res) => {
 // signup route
 app.post('/signup', (req, res) => authenticator.signup(req, res, bcrypt, User));
 
+// signin route
+app.post('/signin', (req, res) => authenticator.signin(req, res, bcrypt, User));
+
 // store session route
 app.post('/getSessionID', (req, res) => sessionManager.setSession(req, res, bcrypt, Session));
 
