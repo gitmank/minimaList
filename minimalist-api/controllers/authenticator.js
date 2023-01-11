@@ -6,12 +6,12 @@ const signup = async(req, res, bcrypt, User) => {
     let hashedPassword = await getHashedPassword(bcrypt, req.body.password);
 
     let temp = new User({
-        username: req.body.username,
-        password: hashedPassword,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        created: new Date(),
+        username:   req.body.username,
+        password:   hashedPassword,
+        firstname:  req.body.firstname,
+        lastname:   req.body.lastname,
+        email:      req.body.email,
+        created:    new Date(),
     })
     temp.save((error, data) => {
         if (!error) {
@@ -34,31 +34,26 @@ const signin = async(req, res, bcrypt, User) => {
         return null;
     }
 
-    const req_username = req.body.username
-    const req_password = req.body.password
+    const { username, password } = req.body;
 
-    const user = await User.findOne({ username: req_username });
-    if (!user) {
-        res.status(400).end('invalid username or password');
-        return;
+    const data = await User.findOne({ username: username });
+    if (!data) {
+        res.status(404).end('invalid');
+        return null;
     }
 
-    const match = await bcrypt.compare(req_password, user.password);
-    if (match) {
-        let user_data = {
-            username: user.username,
-            firstName: user.firstname,
-            lastName: user.lastname,
-            email: user.email
-        };
-
-        let res_data = JSON.stringifty({
-            authStatus: true,
-            userData: user_data
+    const passwordsMatch = await bcrypt.compare(password, data.password);
+    if (passwordsMatch) {
+        let user = JSON.stringify({
+            username: data.username,
+            firstName: data.firstname,
+            id: data._id,
+            key: process.env.BACKEND_VERIFICATION_TOKEN,
         });
-        res.status(200).send(res_data);
-    } else {
-        res.status(400).end('invalid username or password');
+        res.status(200).send(user);
+    } 
+    else {
+        res.status(403).end('invalid');
     }
 };
 

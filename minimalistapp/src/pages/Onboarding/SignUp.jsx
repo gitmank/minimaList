@@ -65,21 +65,21 @@ const SignUp = ({ setAuthenticatedUser }) => {
             })
         })
         .then(response => { return response.json() });
-        if(user === 'invalid') {
-            navigate(0);
-            alert('It pains us to say there was an error. Please try again.');
-        }
-        else {
+        if(user.key === process.env.REACT_APP_BACKEND_VERIFICATION_TOKEN) {
             setAuthenticatedUser(user.username, user._id, user.firstname)
             if(hasTeam==='1')
                 navigate('/onboarding/joinTeam', {replace: true})
             else
                 navigate('/onboarding/createTeam', {replace: true})
         }
+        else {
+            navigate(0);
+            alert('It pains us to say there was an error. Please try again.');
+        }
     }
 
     const showHidePass = (event) => {
-        event.target.textContent = event.target.textContent==='-_-'? 'o_o':'-_-';
+        event.target.textContent = event.target.textContent==='^_^'? 'o_o':'^_^';
         event.target.style.fontSize = '20px';
         const field = document.getElementById('response-field');
         field.type = field.type==='password'? 'text': 'password';

@@ -15,6 +15,7 @@ export const navItemsForHome = [
 
 export const navItemsForOnboarding = [
     {link: '/', text: 'Home'},
+    {link: '/dashboard', text: 'Dashboard'},
 ];
 
 export const navItemsForDashboard = [
@@ -155,7 +156,7 @@ export const signupQuestions = [
         question:       'Set a strong password',
         placeholder:    'password',
         required:       true,
-        info:           'tap the -_- button to view',
+        info:           'tap the ^_^ button to view',
     },
 ]
 
@@ -217,5 +218,24 @@ export const createTeamQuestions = [
         placeholder:    'team name',
         required:       true,
         info:           'this can be your project name',
+    },
+]
+
+export const signinQuestions = [
+    {
+        type:           'text',
+        autofill:       'username',
+        question:       'Your unique username',
+        placeholder:    'username',
+        required:       true,
+        info:           'used to identify you in the app',
+    },
+    {
+        type:           'password',
+        autofill:       'current-password',
+        question:       'Your password',
+        placeholder:    'password',
+        required:       true,
+        info:           'tap the ^_^ button to view',
     },
 ]

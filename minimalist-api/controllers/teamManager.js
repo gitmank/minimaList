@@ -12,6 +12,7 @@ const createTeam = async (req, res, Team, TeamCode) => {
     let newCode = new TeamCode({
         teamname:   req.body.teamname,
         teamcode:   req.body.teamcode,
+        owner:      req.body.username,
         created:    new Date(),
         expires:    new Date(new Date().setDate(new Date().getDate() + 7)),
     })
@@ -26,24 +27,28 @@ const createTeam = async (req, res, Team, TeamCode) => {
     })
 }
 
-const joinTeam = async (req, res, Team, User) => {
+const joinTeam = async (req, res, Team, TeamCode, User) => {
     if(req.body.key !== process.env.FRONTEND_VERIFICATION_TOKEN) {
         res.status(401).end('invalid');
         return null;
     }
     try {
-        const doc = await Team.findOne(
-            { teamcode: 'seven green cats'},
+        const team = await TeamCode.findOne(
+            { teamcode: req.body.teamcode},
         );
+
+        const doc = await Team.findOne(
+            { teamname: team.teamname, owner: team.owner }
+        )
 
         if(!doc.members.includes(req.body.username)) {
             await Team.findOneAndUpdate(
-                { teamcode: 'seven green cats'},
-                { $push: { members: req.body.username }}
+                { teamname: doc.teamname, owner: doc.owner },
+                { $push: { members: req.body.username }},
             );
             await User.findOneAndUpdate(
                 { username: req.body.username },
-                { $push: { teams: doc.teamname }}
+                { $push: { teams: doc.teamname }},
             );
             res.sendStatus(200);
         }
@@ -51,7 +56,7 @@ const joinTeam = async (req, res, Team, User) => {
             res.status(400).end('invalid');
     }
     catch(err) {
-      res.status(500).end('error')
+        res.status(500).end('error')
     }
 }
 
@@ -61,14 +66,27 @@ const checkTeamCodeExists = async(req, res, TeamCode) => {
         return null;
     }
     const data = await TeamCode.findOne({ teamcode: req.body.teamcode }, );
-    if (data)
+    if(data)
         res.status(200).end('1');
     else
         res.status(200).end('0');
+}
+
+const getTeamDetails = async(req, res, TeamCode) => {
+    if(req.body.key !== process.env.FRONTEND_VERIFICATION_TOKEN) {
+        res.status(401).end('invalid');
+        return null;
+    }
+    const data = await TeamCode.findOne({ teamcode: req.body.teamcode }, );
+    if(data)
+        res.status(200).end(JSON.stringify(data));
+    else
+        res.status(404).end('invalid');
 }
 
 module.exports = {
     createTeam:             createTeam,
     joinTeam:               joinTeam,
     checkTeamCodeExists:    checkTeamCodeExists,
+    getTeamDetails:         getTeamDetails,
 }

@@ -3,7 +3,8 @@
     border-width: 2px 0px;
     border-style: solid;
     height: max-content;
-    min-height: 800px;
+    min-height: 750px;
+    height: 100%;
     padding: 3%;
 }
 #onboarding-page.light {

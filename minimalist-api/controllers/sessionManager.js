@@ -4,6 +4,8 @@ const setSession = async (req, res, bcrypt, Session) => {
         return null;
     }
 
+    await Session.deleteMany({ username: req.body.username })
+
     let sesssionID = await getSessionID();
     let expires = new Date(new Date().setDate(new Date().getDate() + 7));
     let temp = new Session({
@@ -22,8 +24,55 @@ const setSession = async (req, res, bcrypt, Session) => {
     })
 }
 
+const verifySession = async (req, res, Session, User) => {
+    if(req.body.key !== process.env.FRONTEND_VERIFICATION_TOKEN) {
+        res.status(401).end('invalid');
+        return null;
+    }
+
+    let session = await Session.findOne(
+        { id: req.body.sessionID }
+    )
+    if(!session) {
+        res.status(404).end('invalid');
+        return null;
+    }
+
+    const isSessionValid = new Date().getTime() < new Date(session.expires).getTime();
+    if(!isSessionValid) {
+        res.status(403).end('invalid');
+        return null;
+    }
+
+    let data = await User.findOne(
+        { username: session.username }
+    )
+
+    if(!data) {
+        res.status(404).end('invalid');
+        return null;
+    }
+
+    await Session.findOneAndUpdate(
+        { id: session.id },
+        { lastUsed: new Date() }
+    )
+
+    const { username, firstname } = data;
+
+    let user = JSON.stringify({
+        username: username,
+        firstname: firstname,
+        id: data._id,
+        key: process.env.BACKEND_VERIFICATION_TOKEN,
+    })
+    
+    res.status(200).end(user);
+}
+
 module.exports = {
-    setSession: setSession,
+    setSession:     setSession,
+    verifySession:  verifySession,
 }
 
 // not for export

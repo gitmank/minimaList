@@ -51,14 +51,20 @@ app.post('/signin', (req, res) => authenticator.signin(req, res, bcrypt, User));
 // store session route
 app.post('/getSessionID', (req, res) => sessionManager.setSession(req, res, bcrypt, Session));
 
+// verify session route
+app.post('/verifySession', (req, res) => sessionManager.verifySession(req, res, Session, User));
+
 // create team route
 app.post('/createTeam', (req, res) => teamManager.createTeam(req, res, Team, TeamCode));
 
 // join team route
-app.post('/joinTeam', (req, res) => teamManager.joinTeam(req, res, Team, User));
+app.post('/joinTeam', (req, res) => teamManager.joinTeam(req, res, Team, TeamCode, User));
 
 // route to check if user exists
 app.post('/usernameExists', (req, res) => authenticator.checkUserExists(req, res, User));
 
 // route to check if team code exists
 app.post('/teamcodeExists', (req, res) => teamManager.checkTeamCodeExists(req, res, TeamCode));
+
+// route to get team details from teamcode
+app.post('/getTeam', (req, res) => teamManager.getTeamDetails(req, res, TeamCode));

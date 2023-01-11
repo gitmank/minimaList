@@ -7,16 +7,17 @@ import { useState, useEffect } from 'react';
 import { navItemsForHome, navItemsForOnboarding, navItemsForDashboard } from './constants';
 import Onboarding from './pages/Onboarding/Onboarding';
 import { useCookies } from 'react-cookie';
+import Dashboard from './pages/Dashboard/Dashboard'
 
 function App() {
   // hooks
   const [isLightTheme, setTheme] = useState();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isAuthSuccess, setAuthStatus] = useState(false);
-  const [username, setUsername] = useState('');
-  const [secret, setSecret] = useState('');
-  const [name, setName] = useState('');
-  const [cookies, setCookie] = useCookies(['session']);
+  const [username, setUsername] = useState();
+  const [secret, setSecret] = useState();
+  const [name, setName] = useState();
+  const [cookies, setCookie, removeCookie] = useCookies(['session']);
 
   // adding event listeners
   useEffect(() => {
@@ -86,9 +87,14 @@ function App() {
               <Navbar  
               navItems={navItemsForDashboard}
               isLightTheme={isLightTheme} 
-              scrollPosition={scrollPosition}/>
-              <div style={{height: '300px'}}></div>
-              <h1>DASHBOARD</h1>🚧 🦺 work in progress 🦺 🚧</>
+              scrollPosition={scrollPosition}
+              />
+              <Dashboard 
+                isLightTheme={isLightTheme}
+                cookies={cookies}
+                removeCookie={removeCookie}
+              />
+            </>
           } />
         </Routes>
     </div>

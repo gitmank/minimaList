@@ -84,6 +84,7 @@ const setTeamCodeSchema = () => {
     let teamcodeSchema = new mongoose.Schema({
         teamname:   { type: String },
         teamcode:   { type: String },
+        owner:      { type: String },
         created:    { type: Date },
         expires:    { type: Date },
     })

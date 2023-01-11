@@ -1,23 +1,25 @@
 import { useEffect } from 'react';
-import { useAsyncValue, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './CreateTeam.css';
-import FormBody from './FormBody';
-import ShareCode from './ShareCode';
+import { validationFunctions } from './validators';
+import FormBody from '../../views/FormBody';
+import ShareCode from '../../views/ShareCode';
 import { Route, Routes } from 'react-router-dom';
-import { generateTeamcode, createTeamQuestions } from '../constants'
+import { generateTeamcode, createTeamQuestions } from '../../constants'
 import { useState } from 'react';
 
 const CreateTeam = ({ isAuthSuccess, username }) => {
 
-    const navigate = useNavigate();
-    const [teamcode, setTeamcode] = useState();
-
     // hooks
+    const navigate = useNavigate();
+    const [displayCode, setCode] = useState();
+
     useEffect(() => {
-        // if(!isAuthSuccess)
-        //     navigate('/onboarding', { replace:true })
+        if(!isAuthSuccess)
+            navigate('/onboarding', { replace:true })
     })
 
+    const { nullValidation } = validationFunctions;
     const generateUniqueCode = async () => {
         let newcode = '';
         let i = 0;
@@ -43,16 +45,17 @@ const CreateTeam = ({ isAuthSuccess, username }) => {
             if(!teamcodeExists)
                 break;
         }
+        setCode(newcode);
         return newcode;
     }
 
-    const registerTeamcode = async (username, teamname) => {
+    const registerTeamcode = async (username, teamcode, teamname) => {
         const url = process.env.REACT_APP_SERVER_URL;
         await fetch(url.concat('/createTeam'), {
           method: 'post',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
-              teamcode: teamcode,
+              teamcode: teamcode.code,
               username: username,
               teamname: teamname,
               key: process.env.REACT_APP_FRONTEND_VERIFICATION_TOKEN,
@@ -62,7 +65,7 @@ const CreateTeam = ({ isAuthSuccess, username }) => {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-                teamcode: teamcode,
+                teamcode: teamcode.code,
                 username: username,
                 key: process.env.REACT_APP_FRONTEND_VERIFICATION_TOKEN,
             })
@@ -71,10 +74,10 @@ const CreateTeam = ({ isAuthSuccess, username }) => {
 
     const handleSubmit = async () => {
         let value = document.getElementById('response-field').value;
-        if(value === '')
+        if(!nullValidation(value))
             return undefined;
-        setTeamcode(await generateUniqueCode());
-        await registerTeamcode(username, value);
+        const teamcode = await generateUniqueCode();
+        await registerTeamcode(username, teamcode, value);
         navigate('/onboarding/createTeam/shareCode', { replace: true });
     }
 
@@ -89,7 +92,7 @@ const CreateTeam = ({ isAuthSuccess, username }) => {
                     />
                 } />
                 <Route path='/shareCode' element={
-                    <ShareCode teamcode={teamcode} />
+                    <ShareCode teamcode={displayCode} />
                 } />
             </Routes>
         </div>

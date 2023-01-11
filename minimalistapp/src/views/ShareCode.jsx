@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./CreateTeam.css";
+import "../pages/Onboarding/CreateTeam.css";
 
 const ShareCode = ({ teamcode }) => {
 
@@ -16,7 +16,7 @@ const ShareCode = ({ teamcode }) => {
 
     const handleCopyClick = () => {
         const codeText = document.getElementById('teamcode').textContent
-        navigator.clipboard.writeText(codeText);
+        navigator.clipboard.writeText(codeText + '\n' + emoji);
     }
 
     return(

@@ -1,5 +1,3 @@
-
-
 const FormBody = ({ showField, handleInputChange, handleSubmit, indicatorBackground }) => {
     const { autofill, question, type, placeholder, info } = showField;
     return(
@@ -18,7 +16,7 @@ const FormBody = ({ showField, handleInputChange, handleSubmit, indicatorBackgro
             <span id='error-message' className='validation-message'></span>
             </div>
             <div id='button-area'>
-            <button id='password-indicator' className='button' style={{display: type==='password'? 'flex': 'none'}}><h1>{'-_-'}</h1></button>
+            <button id='password-indicator' className='button' style={{display: type==='password'? 'flex': 'none'}}><h1>{'^_^'}</h1></button>
             <button id='next-button' className='button' onClick={handleSubmit}><h1>➭</h1></button>
             </div>
         </>

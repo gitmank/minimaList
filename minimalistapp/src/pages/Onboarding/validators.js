@@ -1,6 +1,6 @@
 import { indicatorStyles } from "../../constants";
 
-const validationFunctions = {
+export const validationFunctions = {
     nullValidation: (value) => {
         if(value) {
             setErrorMessage('')
