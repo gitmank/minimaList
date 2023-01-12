@@ -1,11 +1,10 @@
 // stores constants for easy changes
 
- // decides the point at which header and navbar minimize
+// decides the point at which header and navbar minimize
 export const scrollLimit = 100;
 
 
 // nav items to be shown in navbar on different pages
-
 export const navItemsForHome = [
     {link: '/dashboard', text: 'Dashboard'},
     {link: '#toFeatures', text: 'Features'},
@@ -15,7 +14,6 @@ export const navItemsForHome = [
 
 export const navItemsForOnboarding = [
     {link: '/', text: 'Home'},
-    {link: '/dashboard', text: 'Dashboard'},
 ];
 
 export const navItemsForDashboard = [
@@ -23,7 +21,7 @@ export const navItemsForDashboard = [
 ];
 
 
-// for home page
+// for home page features
 export const professions = [
     {text: 'collaboration tool for everyone', emoji: '👩🏽 👨🏻 🧑🏻 🧔🏾‍♂️ 👩🏻'},
     {text: 'collaboration tool for developers', emoji: '👩🏽‍💻 👨🏻‍💻 🧑🏻‍💻 👨🏾‍💻 👩🏻‍💻'},
@@ -68,7 +66,7 @@ export class professionsList {
     }
 }
 
-// for onboarding pages
+// for onboarding page options
 const privacyPoints = [
     'no analytics data will be collected', 
     'cookies are optional', 
@@ -116,7 +114,7 @@ export const authOptions = [
 ]
 
 
-// for signup form
+// form questions
 export const signupQuestions = [
     {
         type:           'text',
@@ -160,6 +158,38 @@ export const signupQuestions = [
     },
 ]
 
+export const createTeamQuestions = [
+    {
+        type:           'text',
+        autofill:       'none',
+        question:       'Name your team',
+        placeholder:    'team name',
+        required:       true,
+        info:           'this can be your project name',
+    },
+]
+
+export const signinQuestions = [
+    {
+        type:           'text',
+        autofill:       'username',
+        question:       'Your unique username',
+        placeholder:    'username',
+        required:       true,
+        info:           'used to identify you in the app',
+    },
+    {
+        type:           'password',
+        autofill:       'current-password',
+        question:       'Your password',
+        placeholder:    'password',
+        required:       true,
+        info:           'tap the ^_^ button to view',
+    },
+]
+
+
+// password strength colors
 export const indicatorStyles = [
     'linear-gradient(to right, rgb(255, 64, 19), rgb(255, 106, 0))',
     'linear-gradient(to right, rgb(255, 106, 0), rgb(255, 170, 0))',
@@ -210,32 +240,20 @@ export const generateTeamcode = () => {
     }
 }
 
-export const createTeamQuestions = [
-    {
-        type:           'text',
-        autofill:       'none',
-        question:       'Name your team',
-        placeholder:    'team name',
-        required:       true,
-        info:           'this can be your project name',
-    },
-]
-
-export const signinQuestions = [
-    {
-        type:           'text',
-        autofill:       'username',
-        question:       'Your unique username',
-        placeholder:    'username',
-        required:       true,
-        info:           'used to identify you in the app',
-    },
-    {
-        type:           'password',
-        autofill:       'current-password',
-        question:       'Your password',
-        placeholder:    'password',
-        required:       true,
-        info:           'tap the ^_^ button to view',
-    },
-]
+export const verifySession = async (sessionID) => {
+    const url = process.env.REACT_APP_SERVER_URL.concat('/verifySession');
+    const user = await fetch(url, {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            sessionID: sessionID,
+            key: process.env.REACT_APP_FRONTEND_VERIFICATION_TOKEN,
+        })
+    }).then(response => { return response.json() })
+    if(user.key === process.env.REACT_APP_BACKEND_VERIFICATION_TOKEN) {
+        return user.username;
+    }
+    else {
+        throw Error
+    }
+}

@@ -10,6 +10,8 @@ import { useState } from 'react';
 
 const CreateTeam = ({ isAuthSuccess, username }) => {
 
+    const { nullValidation } = validationFunctions;
+
     // hooks
     const navigate = useNavigate();
     const [displayCode, setCode] = useState();
@@ -19,7 +21,6 @@ const CreateTeam = ({ isAuthSuccess, username }) => {
             navigate('/onboarding', { replace:true })
     })
 
-    const { nullValidation } = validationFunctions;
     const generateUniqueCode = async () => {
         let newcode = '';
         let i = 0;
@@ -27,7 +28,7 @@ const CreateTeam = ({ isAuthSuccess, username }) => {
             if(i > 10) {
                 newcode = {
                     code: Math.floor(Math.random()*1000000),
-                    emoji: '⚠️❓❗️⚠️',
+                    emoji: '⚠️',
                 }
                 break;
             }

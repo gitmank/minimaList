@@ -4,10 +4,27 @@ import { scrollLimit } from '../../constants';
 import Toggle from '../Toggle/Toggle';
 import './ToggleInHeader.css';
 import './Header.css';
+import { useState, useEffect } from 'react';
 
 // Header is always rendered on all pages
-const Header = ({ setTheme, isLightTheme, scrollPosition }) => {
+const Header = ({ setTheme, isLightTheme }) => {
     
+    // hooks
+    const [scrollPosition, setScrollPosition] = useState();
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    });
+    
+    // event handlers   
+        const handleScroll = () => {
+        const position = window.scrollY;
+        setScrollPosition(position);
+    };
+
     // returns class for styling
     const getClassForStyling = (className) => {
         if(scrollPosition > scrollLimit)

@@ -12,6 +12,7 @@ const ShowTeam = ({ teamcode, handleJoinTeam }) => {
         owner: 'nobody',
     });
     const navigate = useNavigate();
+    
     useEffect(() => {
         getTeamName();
     })
@@ -23,7 +24,7 @@ const ShowTeam = ({ teamcode, handleJoinTeam }) => {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    teamcode:   teamcode.code,
+                    teamcode:   code,
                     key:        process.env.REACT_APP_FRONTEND_VERIFICATION_TOKEN,
                 }),
             }).then(data => data.json())

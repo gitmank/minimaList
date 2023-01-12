@@ -6,21 +6,19 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthOptions = () => {
 
+    // hooks
     const [count, setCount] = useState(0);
     const navigate = useNavigate();
 
-    const incrementCount = () => {
-        if(count < 2)
-            setCount(count + 1)
-        else
-            setCount(0)
-    }
-    const decrementCount = () => {
-        if(count > 0)
-            setCount(count - 1)
-        else
-            setCount(authOptions.length - 1)
-    }
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown, {passive: true});
+
+        return(() => {
+            window.removeEventListener('keydown', handleKeyDown);
+        });
+    })
+
+    // event handlers
     const handleKeyDown = (event) => {
         if(event.key === 'ArrowLeft')
             decrementCount();
@@ -38,14 +36,19 @@ const AuthOptions = () => {
             navigate('/onboarding/signup/0', { replace: false })
     }
 
-    // to handle when arrow keys are pressed
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown, {passive: true});
-
-        return(() => {
-            window.removeEventListener('keydown', handleKeyDown);
-        });
-    })
+    // supporting functions
+    const incrementCount = () => {
+        if(count < 2)
+            setCount(count + 1)
+        else
+            setCount(0)
+    }
+    const decrementCount = () => {
+        if(count > 0)
+            setCount(count - 1)
+        else
+            setCount(authOptions.length - 1)
+    }
 
     return(
         <div id='view-container'>

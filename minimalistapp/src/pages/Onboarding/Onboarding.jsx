@@ -6,11 +6,18 @@ import SignIn from './SignIn';
 import CreateTeam from './CreateTeam';
 import JoinTeam from './JoinTeam';
 import { useState } from 'react';
+import { useCookies } from 'react-cookie';
+import Navbar from '../../components/Navbar/Navbar';
+import { navItemsForOnboarding } from '../../constants';
 
 const Onboarding = ({ isLightTheme, setAuthenticatedUser, authenticatedUser, isAuthSuccess }) => {
 
     return(
         <>
+            <Navbar  
+                navItems={navItemsForOnboarding}
+                isLightTheme={isLightTheme} 
+            />
             <div id='spacer'></div>
             <div id='onboarding-page' className={isLightTheme? 'light':'dark'}>
                 <div id='onboarding-body'>

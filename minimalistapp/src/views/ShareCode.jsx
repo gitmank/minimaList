@@ -5,6 +5,8 @@ import "../pages/Onboarding/CreateTeam.css";
 const ShareCode = ({ teamcode }) => {
 
     const { code, emoji } = teamcode;
+
+    // hooks
     const navigate = useNavigate();
     useEffect(() => {
         let copyButton = document.getElementById('copy-button');
@@ -14,9 +16,10 @@ const ShareCode = ({ teamcode }) => {
         })
     })
 
+    // event handlers
     const handleCopyClick = () => {
         const codeText = document.getElementById('teamcode').textContent
-        navigator.clipboard.writeText(codeText + '\n' + emoji);
+        navigator.clipboard.writeText(codeText + emoji);
     }
 
     return(

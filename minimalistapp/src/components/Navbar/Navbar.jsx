@@ -1,15 +1,30 @@
 import '../Navbar/Navbar.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { scrollLimit } from '../../constants';
 
-const Navbar = ({ isLightTheme, scrollPosition, navItems }) => {
+const Navbar = ({ isLightTheme, navItems }) => {
 
-    // stored states
+    // hooks
     const [isMenuOpen, toggleMenu] = useState(0);
+    const [scrollPosition, setScrollPosition] = useState(0);
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    });
+    
+    // event handlers   
+        const handleScroll = () => {
+        const position = window.scrollY;
+        setScrollPosition(position);
+    };
 
     // returns class name for styling
     const getClassForStyling = (className) => {
         let theme = isLightTheme? ' light': ' dark';
-        let size = (scrollPosition > 100)? ' mini': '';
+        let size = (scrollPosition > scrollLimit)? ' mini': '';
         return className.concat(theme).concat(size);
     }
 

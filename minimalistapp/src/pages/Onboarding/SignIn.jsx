@@ -1,59 +1,40 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { signinQuestions } from "../../constants";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { useCookies } from 'react-cookie';
+import { signinQuestions, verifySession } from "../../constants";
 import FormBody from "../../views/FormBody";
 import './SignIn.css'
 import { validationFunctions } from "./validators";
 
 const SignIn = ({ setAuthenticatedUser }) => {
 
-    const [count, setCount] = useState(0);
-    const [data, setData] = useState({ username: '', password: '' });
-    const navigate = useNavigate();
-
     const { nullValidation } = validationFunctions;
+
+    // hooks
+    const [firstInput, setInput] = useState();
+    const [cookies, setCookie, removeCookie] = useCookies(['session'])
+    const navigate = useNavigate();
  
     useEffect(() => {
-        if(data.password) {
-            authenticateUser()
+        if(cookies.session)
+            recoverSession()
+        else 
+            navigate('/onboarding/signin/username')
+    }, [])
+
+    const recoverSession = async () => {
+        try {
+            await verifySession(cookies.session);
+            navigate('/dashboard');
         }
-        const indicator = document.getElementById('password-indicator');
-        indicator.addEventListener('click', showHidePass, { passive: true });
-        window.addEventListener('keydown', handleKeyDown);
-        return(() => {
-            indicator.removeEventListener('click', showHidePass);
-            window.removeEventListener('keydown', handleKeyDown);
-        })
-    })
-
-    const showHidePass = (event) => {
-        event.target.textContent = event.target.textContent==='^_^'? 'o_o':'^_^';
-        event.target.style.fontSize = '20px';
-        const field = document.getElementById('response-field');
-        field.type = field.type==='password'? 'text': 'password';
-    }
-
-    const handleKeyDown = (event) => {
-        if(event.key === 'Enter')
-            handleSubmit();
-    }
-
-    const handleSubmit = () => {
-        let field = document.getElementById('response-field')
-        if(!nullValidation(field.value))
-            return null;
-        if(count === 0) {
-            setData({ username: field.value, password: '' })
-            field.value = null;
-            setCount(1)
-        }
-        if(count === 1) {
-            setData({ username: data.username, password: field.value })
+        catch {
+            removeCookie('session');
+            navigate('/onboarding/signin/username')
         }
     }
 
-    const authenticateUser = async () => {
+    const authenticateUser = async (data) => {
         const url = process.env.REACT_APP_SERVER_URL.concat('/signin');
         try {
             const user = await fetch(url, {
@@ -67,28 +48,87 @@ const SignIn = ({ setAuthenticatedUser }) => {
             })
             .then(response => { return response.json() });
             if(user.key === process.env.REACT_APP_BACKEND_VERIFICATION_TOKEN) {
-                await setAuthenticatedUser(user.username, user._id, user.firstname)
-                navigate('/dashboard', {replace: true})
-                return null;
+                await setSession(user.username);
             }
             else
                 throw Error;
         }
         catch {
-            setCount(0);
-            setData([]);    
-            document.getElementById('response-field').value = ''
-            document.getElementById('error-message').textContent = 'invalid credentials'
+            resetForm()
         }
+    }
+
+    const setSession = async (username) => {
+        const url = process.env.REACT_APP_SERVER_URL.concat('/getSessionID');
+        try {
+            const session = await fetch(url, {
+              method: 'post',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                  username: username,
+                  key: process.env.REACT_APP_FRONTEND_VERIFICATION_TOKEN,
+              })
+            }).then(response => { return response.json() })
+            let expiry = Math.floor(((new Date(session.expires).getTime()) - (new Date().getTime()))/1000)
+            setCookie('session', session.id, { path: '/', maxAge: expiry });
+            navigate('/dashboard', {replace: true});
+        }
+        catch {
+            resetForm()
+        }
+    }
+
+    const submitUsername = (event) => {
+        let field = document.getElementById('response-field');
+        if(!nullValidation(field.value))
+            return null;
+        setInput(field.value)
+        field.value = null;
+        navigate('/onboarding/signin/password', { replace: true })  
+    }
+
+    const submitPassword = async (event) => {
+        let field = document.getElementById('response-field');
+        if(!nullValidation(field.value))
+            return null;
+        let inputs = {
+            username: firstInput,
+            password: field.value,
+        }
+        document.getElementById('next-button').style.display = 'none';
+        await authenticateUser(inputs);
+    }
+
+    const handleInputChange = (event) => {
+        nullValidation(event.target.value)
+    }
+
+    const resetForm = () => {
+        navigate('/onboarding/signin/username')
+        document.getElementById('next-button').style.display = 'flex';
+        setInput('');    
+        document.getElementById('response-field').value = ''
+        document.getElementById('error-message').textContent = 'invalid credentials'
     }
 
     return(
         <>
-            <FormBody 
-                handleSubmit={handleSubmit}
-                handleInputChange={() => {}}
-                showField={signinQuestions[count]}
-            />
+            <Routes>
+                <Route path="/username" element={
+                    <FormBody 
+                        handleSubmit={submitUsername}
+                        handleInputChange={handleInputChange}
+                        showField={signinQuestions[0]}
+                    />
+                }/>
+                <Route path="/password" element={
+                    <FormBody 
+                        handleSubmit={submitPassword}
+                        handleInputChange={handleInputChange}
+                        showField={signinQuestions[1]}
+                    />
+                }/>
+            </Routes>
         </>
     )
 }

@@ -1,5 +1,33 @@
-const FormBody = ({ showField, handleInputChange, handleSubmit, indicatorBackground }) => {
+import { useEffect } from "react";
+
+const FormBody = ({ showField, handleInputChange, handleSubmit }) => {
+
     const { autofill, question, type, placeholder, info } = showField;
+
+    // hooks
+    useEffect(() => {
+        const indicator = document.getElementById('password-indicator');
+        indicator.addEventListener('click', showHidePass, { passive: true });
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            indicator.removeEventListener('click', showHidePass);
+            window.removeEventListener('keydown', handleKeyDown);
+        }
+    })
+
+    // event handlers\
+    const showHidePass = (event) => {
+        event.target.textContent = event.target.textContent==='^_^'? 'o_o':'^_^';
+        event.target.style.fontSize = '20px';
+        const field = document.getElementById('response-field');
+        field.type = field.type==='password'? 'text': 'password';
+    }
+
+    const handleKeyDown = (event) => {
+        if(event.key === 'Enter')
+            handleSubmit();
+    }
+
     return(
         <>
             <h1 id='question'>{question}</h1>

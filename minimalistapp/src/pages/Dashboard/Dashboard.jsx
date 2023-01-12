@@ -1,51 +1,41 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import Navbar from '../../components/Navbar/Navbar';
+import { navItemsForDashboard, verifySession } from '../../constants';
 import './Dashboard.css';
 
-const Dashboard = ({ isLightTheme, cookies, removeCookie }) => {
+const Dashboard = ({ isLightTheme }) => {
 
     // hooks
     const navigate = useNavigate();
     const [authenticatedUser, setUser] = useState();
-    const [firstname, setName] = useState();
+    const [cookies, setCookie, removeCookie] = useCookies(['session'])
 
     useEffect(() => {
-        verifySession()
+        if(cookies.session)
+            recoverSession()
+        else
+            navigate('/onboarding')
     })
 
-    const verifySession = async () => {
-        const url = process.env.REACT_APP_SERVER_URL.concat('/verifySession');
+    const recoverSession = async () => {
         try {
-            const user = await fetch(url, {
-                method: 'post',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    sessionID: cookies.session,
-                    key: process.env.REACT_APP_FRONTEND_VERIFICATION_TOKEN,
-                })
-            }).then(response => { return response.json() })
-            if(user.key === process.env.REACT_APP_BACKEND_VERIFICATION_TOKEN) {
-                recoverSession(user);
-            }
-            if(!user) {
-                navigate('/onboarding', { replace: true })
-            }
+            setUser(await verifySession(cookies.session))
         }
         catch {
             console.log('no session recovered')
             removeCookie('session')
-            navigate('/onboarding', { replace: true })
+            navigate('/error', { replace: true })
         }
-    }
-
-    const recoverSession = (user) => {
-        const { username, firstname } = user;
-        setUser(username);
-        setName(firstname);
     }
 
     return(
         <>
+            <Navbar  
+                navItems={navItemsForDashboard}
+                isLightTheme={isLightTheme}
+            />
             <div style={{height: '200px'}}></div>
             <div id='placeholder'>
                 <h1>DASHBOARD - {authenticatedUser}</h1>
