@@ -1,12 +1,14 @@
 import '../Navbar/Navbar.css';
 import { useState, useEffect } from 'react';
 import { scrollLimit } from '../../constants';
+import { useCookies } from 'react-cookie';
 
 const Navbar = ({ isLightTheme, navItems }) => {
 
     // hooks
     const [isMenuOpen, toggleMenu] = useState(0);
     const [scrollPosition, setScrollPosition] = useState(0);
+    const [cookies] = useCookies(['session']);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll, { passive: true });
@@ -43,6 +45,8 @@ const Navbar = ({ isLightTheme, navItems }) => {
                 <div id='inline-menu'>
                 {   // return navItems specific to the page
                     navItems.map((item, index) => {
+                        if((!cookies.session) && (item.text==='Dashboard'))
+                            return null;
                         return(
                             <a className='navlink' href={item.link} key={index}>
                                 <h3>{item.text}</h3>
@@ -57,6 +61,8 @@ const Navbar = ({ isLightTheme, navItems }) => {
                 style={{display: isMenuOpen? 'flex': 'none'}}>
                 {   // return navItems specific to the page
                     navItems.map((item, index) => {
+                        if((!cookies.session) && (item.text==='Dashboard'))
+                        return null;
                         return(
                             <a className='navlink' href={item.link} key={index}>
                                 <h3>{item.text}</h3>

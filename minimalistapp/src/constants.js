@@ -14,10 +14,11 @@ export const navItemsForHome = [
 
 export const navItemsForOnboarding = [
     {link: '/', text: 'Home'},
+    {link: '/dashboard', text: 'Dashboard'},
 ];
 
 export const navItemsForDashboard = [
-    {link: '/', text: 'Home?'},
+    {link: '/logout', text: 'Logout'},
 ];
 
 

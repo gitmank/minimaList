@@ -4,6 +4,7 @@ import Header from './components/Header/Header'
 import { useState } from 'react';
 import Onboarding from './pages/Onboarding/Onboarding';
 import Dashboard from './pages/Dashboard/Dashboard'
+import Logout from './pages/Onboarding/Logout';
 
 function App() {
 
@@ -31,9 +32,13 @@ function App() {
             element={<Dashboard isLightTheme={isLightTheme} />} 
           />
           <Route 
+            path='/logout'
+            element={<Logout />}
+          />
+          <Route 
             path='/*'
             // replace with NOT FOUND page
-            element={<><div style={{height: '200px'}}></div><h1>Not found</h1></>}
+            element={<><div style={{height: '200px'}}></div><div style={{marginLeft: '200px'}}><h1>Page not found</h1><h1>🚧 🦺 work in progress 🦺 🚧</h1></div></>}
           />
         </Routes>
     </>

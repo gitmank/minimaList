@@ -5,22 +5,37 @@ import { validationFunctions } from './validators';
 import FormBody from '../../views/FormBody';
 import ShareCode from '../../views/ShareCode';
 import { Route, Routes } from 'react-router-dom';
-import { generateTeamcode, createTeamQuestions } from '../../constants'
+import { generateTeamcode, createTeamQuestions, verifySession } from '../../constants'
 import { useState } from 'react';
+import { useCookies } from 'react-cookie';
 
-const CreateTeam = ({ isAuthSuccess, username }) => {
+const CreateTeam = () => {
 
     const { nullValidation } = validationFunctions;
 
     // hooks
-    const navigate = useNavigate();
     const [displayCode, setCode] = useState();
+    const [cookies, setCookie, removeCookie] = useCookies(['session'])
+    const [username, setUser] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if(!isAuthSuccess)
-            navigate('/onboarding', { replace:true })
-    })
+        if(cookies.session)
+            recoverSession()
+        else 
+            navigate('/onboarding/signin/username', { replace: true })
+    }, [])
 
+    const recoverSession = async () => {
+        try {
+            let temp = await verifySession(cookies.session);
+            setUser(temp);
+        }
+        catch {
+            removeCookie('session');
+            navigate('/onboarding/signin/username', { replace: true })
+        }
+    }
     const generateUniqueCode = async () => {
         let newcode = '';
         let i = 0;

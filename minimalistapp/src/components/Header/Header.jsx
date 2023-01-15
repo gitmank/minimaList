@@ -5,14 +5,17 @@ import Toggle from '../Toggle/Toggle';
 import './ToggleInHeader.css';
 import './Header.css';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Header is always rendered on all pages
 const Header = ({ setTheme, isLightTheme }) => {
     
     // hooks
     const [scrollPosition, setScrollPosition] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        document.getElementById('title').onclick = () => {navigate('/')};
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => {
             window.removeEventListener('scroll', handleScroll);
@@ -45,9 +48,9 @@ const Header = ({ setTheme, isLightTheme }) => {
                     scale={1.1}
                     gyroscope={true}
                 >
-                    <img src={logo} className={getClassForStyling('logo')} alt="minimalist logo" />
+                    <img src={logo} id='logo' className={getClassForStyling('logo')} alt="minimalist logo" />
                 </Tilt>
-                <h1 className={getClassForStyling('title')}>minimaList</h1>
+                <h1 id='title' className={getClassForStyling('title')}>minimaList</h1>
             </div>
             <div className='toggleContainer'>
                 <Toggle className='toggle' setTheme={setTheme} isLightTheme={isLightTheme}/>

@@ -25,8 +25,8 @@ const Dashboard = ({ isLightTheme }) => {
         }
         catch {
             console.log('no session recovered')
-            removeCookie('session')
-            navigate('/error', { replace: true })
+            removeCookie('session', { path: '/' })
+            navigate('/onboarding', { replace: true })
         }
     }
 

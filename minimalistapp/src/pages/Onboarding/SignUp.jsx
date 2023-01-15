@@ -5,32 +5,30 @@ import { signupQuestions } from '../../constants';
 import { useEffect } from 'react';
 import FormBody from '../../views/FormBody';
 import { inputValidators, submitHandlers } from './validators';
+import { useCookies } from 'react-cookie';
 
-const SignUp = ({ setAuthenticatedUser }) => {
+const SignUp = () => {
 
     // hooks
     const [fieldNumber, setFieldNumber] = useState(0);
     const { hasTeam } = useParams();
     const [formInputs, saveInput] = useState([]);
+    const [cookies, setCookie, removeCookie] = useCookies(['session'])
     const navigate = useNavigate();
+
     useEffect(() => {
-        const indicator = document.getElementById('password-indicator');
-        indicator.addEventListener('click', showHidePass, { passive: true });
-        window.addEventListener('keydown', handleKeyDown);
-        return(() => {
-            indicator.removeEventListener('click', showHidePass);
-            window.removeEventListener('keydown', handleKeyDown);
-        })
+        if(cookies.session) {
+            if(hasTeam==='1')
+                navigate('/onboarding/joinTeam', {replace: true})
+            else
+                navigate('/onboarding/createTeam', {replace: true})
+        }
     })
 
+    // form handlers
     const handleInputChange = (event) => {
         const value = event.target.value
         inputValidators[fieldNumber](value);
-    }
-
-    const handleKeyDown = (event) => {
-        if(event.key === 'Enter')
-            handleSubmit();
     }
 
     const handleSubmit = async () => {
@@ -66,23 +64,40 @@ const SignUp = ({ setAuthenticatedUser }) => {
         })
         .then(response => { return response.json() });
         if(user.key === process.env.REACT_APP_BACKEND_VERIFICATION_TOKEN) {
-            setAuthenticatedUser(user.username, user._id, user.firstname)
+            await setSession(user.username)
             if(hasTeam==='1')
                 navigate('/onboarding/joinTeam', {replace: true})
             else
                 navigate('/onboarding/createTeam', {replace: true})
         }
         else {
-            navigate(0);
+            navigate('/onboarding');
             alert('It pains us to say there was an error. Please try again.');
         }
     }
 
-    const showHidePass = (event) => {
-        event.target.textContent = event.target.textContent==='^_^'? 'o_o':'^_^';
-        event.target.style.fontSize = '20px';
-        const field = document.getElementById('response-field');
-        field.type = field.type==='password'? 'text': 'password';
+    const setSession = async (username) => {
+        const url = process.env.REACT_APP_SERVER_URL.concat('/getSessionID');
+        try {
+            const session = await fetch(url, {
+              method: 'post',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                  username: username,
+                  key: process.env.REACT_APP_FRONTEND_VERIFICATION_TOKEN,
+              })
+            }).then(response => { return response.json() })
+            let expiry = Math.floor(((new Date(session.expires).getTime()) - (new Date().getTime()))/1000)
+            setCookie('session', session.id, { path: '/', maxAge: expiry });
+            if(hasTeam==='1')
+            navigate('/onboarding/joinTeam', {replace: true})
+        else
+            navigate('/onboarding/createTeam', {replace: true})
+        }
+        catch {
+            navigate('onboarding');
+            alert('It pains us to say there was an error. Please try again.');
+        }
     }
 
     return(

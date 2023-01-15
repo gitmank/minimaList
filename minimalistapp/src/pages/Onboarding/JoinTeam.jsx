@@ -1,24 +1,40 @@
 import { useEffect, useState } from 'react';
 import './JoinTeam.css'
-import { teamcodeEmoji, teamcodeItems } from '../../constants';
+import { teamcodeEmoji, teamcodeItems, verifySession } from '../../constants';
 import EmojiForm from '../../views/EmojiForm';
 import ShareCode from '../../views/ShareCode';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import ShowTeam from '../../views/ShowTeam';
+import { useCookies } from 'react-cookie';
 
-const JoinTeam = ({ isAuthSuccess, username }) => {
+const JoinTeam = () => {
 
     // hooks
     const [indexes, setIndexes] = useState([]);
     const [emojicode, setEmoji] = useState([]);
     const [count, setCount] = useState(0);
     const [teamcode, setTeamCode] = useState();
+    const [cookies, setCookie, removeCookie] = useCookies(['session'])
+    const [username, setUser] = useState();
     const navigate = useNavigate();
 
     useEffect(() => {
-        // if(!isAuthSuccess)
-        //     navigate('/onboarding', { replace:true })
-    })
+        if(cookies.session)
+            recoverSession()
+        else 
+            navigate('/onboarding/signin/username', { replace: true })
+    }, [])
+
+    const recoverSession = async () => {
+        try {
+            let temp = await verifySession(cookies.session);
+            setUser(temp);
+        }
+        catch {
+            removeCookie('session');
+            navigate('/onboarding/signin/username', { replace: true })
+        }
+    }
 
     const handleClick = (event) => {
         let temp = indexes;
@@ -56,7 +72,6 @@ const JoinTeam = ({ isAuthSuccess, username }) => {
     }
 
     const handleJoinTeam = async () => {
-        console.log(username)
         try {
             const url = process.env.REACT_APP_SERVER_URL.concat('/joinTeam')
             let temp = await fetch(url, {
@@ -72,7 +87,7 @@ const JoinTeam = ({ isAuthSuccess, username }) => {
         }
         catch {
             alert('oopsie! we could not add you to this team');
-            // navigate('/onboarding')
+            navigate('/dashboard', { replace: true })
         }
     }
 

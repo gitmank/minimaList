@@ -13,24 +13,25 @@ const SignIn = ({ setAuthenticatedUser }) => {
 
     // hooks
     const [firstInput, setInput] = useState();
-    const [cookies, setCookie, removeCookie] = useCookies(['session'])
+    const [cookies, setCookie, removeCookie] = useCookies(['session']);
     const navigate = useNavigate();
  
     useEffect(() => {
         if(cookies.session)
             recoverSession()
         else 
-            navigate('/onboarding/signin/username')
+            navigate('/onboarding/signin/username', { replace: true })
     }, [])
 
+    // supporting functions
     const recoverSession = async () => {
         try {
             await verifySession(cookies.session);
-            navigate('/dashboard');
+            navigate('/dashboard', { replace: true });
         }
         catch {
             removeCookie('session');
-            navigate('/onboarding/signin/username')
+            navigate('/onboarding/signin/username', { replace: true })
         }
     }
 
@@ -78,6 +79,7 @@ const SignIn = ({ setAuthenticatedUser }) => {
         }
     }
 
+    // form handlers
     const submitUsername = (event) => {
         let field = document.getElementById('response-field');
         if(!nullValidation(field.value))

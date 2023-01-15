@@ -54,6 +54,9 @@ app.post('/getSessionID', (req, res) => sessionManager.setSession(req, res, bcry
 // verify session route
 app.post('/verifySession', (req, res) => sessionManager.verifySession(req, res, Session, User));
 
+// delete session route
+app.post('/deleteSession', (req, res) => sessionManager.deleteSession(req, res, Session));
+
 // create team route
 app.post('/createTeam', (req, res) => teamManager.createTeam(req, res, Team, TeamCode));
 

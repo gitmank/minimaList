@@ -19,7 +19,7 @@ const ShareCode = ({ teamcode }) => {
     // event handlers
     const handleCopyClick = () => {
         const codeText = document.getElementById('teamcode').textContent
-        navigator.clipboard.writeText(codeText + emoji);
+        navigator.clipboard.writeText('Hi, I\'m inviting you to join my team on minimaList!\nUse this code to join:\n' + codeText + emoji);
     }
 
     return(

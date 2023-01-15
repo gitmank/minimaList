@@ -10,7 +10,7 @@ import { useCookies } from 'react-cookie';
 import Navbar from '../../components/Navbar/Navbar';
 import { navItemsForOnboarding } from '../../constants';
 
-const Onboarding = ({ isLightTheme, setAuthenticatedUser, authenticatedUser, isAuthSuccess }) => {
+const Onboarding = ({ isLightTheme }) => {
 
     return(
         <>
@@ -22,31 +22,15 @@ const Onboarding = ({ isLightTheme, setAuthenticatedUser, authenticatedUser, isA
             <div id='onboarding-page' className={isLightTheme? 'light':'dark'}>
                 <div id='onboarding-body'>
                     <Routes>
-                        <Route path='/' element={
-                            <AuthOptions />
-                        } />
-                        <Route path='/signin/*' element={<>
-                            <SignIn
-                                setAuthenticatedUser={setAuthenticatedUser} 
-                            />
-                        </>} />
-                        <Route path='/signup/:hasTeam/*' element={<>
-                            <SignUp 
-                                setAuthenticatedUser={setAuthenticatedUser}
-                            />
-                        </>} />
-                        <Route path='/createTeam/*' element={<>
-                            <CreateTeam 
-                                isAuthSuccess={isAuthSuccess} 
-                                username={authenticatedUser}
-                            />
-                        </>} />
-                        <Route path='/joinTeam/*' element={<>
-                            <JoinTeam 
-                                isAuthSuccess={isAuthSuccess} 
-                                username={authenticatedUser}
-                            />
-                        </>} />
+                        <Route path='/' element={ <AuthOptions /> } />
+
+                        <Route path='/signin/*' element={ <SignIn /> } />
+
+                        <Route path='/signup/:hasTeam/*' element={ <SignUp /> } />
+
+                        <Route path='/createTeam/*' element={ <CreateTeam /> } />
+
+                        <Route path='/joinTeam/*' element={ <JoinTeam /> } />
                     </Routes>
                 </div>
             </div>

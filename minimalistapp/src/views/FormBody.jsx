@@ -39,7 +39,7 @@ const FormBody = ({ showField, handleInputChange, handleSubmit }) => {
                 maxLength='50' 
                 placeholder={placeholder}
                 autoComplete={autofill} 
-                autoFocus/>
+                autoFocus />
             <span id='info-message' className='validation-message'>{info}</span>
             <span id='error-message' className='validation-message'></span>
             </div>

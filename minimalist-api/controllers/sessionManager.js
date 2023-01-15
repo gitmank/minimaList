@@ -4,8 +4,6 @@ const setSession = async (req, res, bcrypt, Session) => {
         return null;
     }
 
-    await Session.deleteMany({ username: req.body.username })
-
     let sesssionID = await getSessionID();
     let expires = new Date(new Date().setDate(new Date().getDate() + 7));
     let temp = new Session({
@@ -70,9 +68,27 @@ const verifySession = async (req, res, Session, User) => {
     res.status(200).end(user);
 }
 
+const deleteSession = async (req, res, Session) => {
+    if(req.body.key !== process.env.FRONTEND_VERIFICATION_TOKEN) {
+        res.status(401).end('invalid');
+        return null;
+    }
+
+    Session.findOneAndDelete(
+        { id: req.body.sessionID },
+        (error, data) => {
+            if(!error)
+                res.status(200).end();
+            else
+                res.status(404).end('invalid');
+        }
+    )
+}
+
 module.exports = {
     setSession:     setSession,
     verifySession:  verifySession,
+    deleteSession:  deleteSession,
 }
 
 // not for export
