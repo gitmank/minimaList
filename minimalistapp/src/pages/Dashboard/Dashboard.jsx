@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import Navbar from '../../components/Navbar/Navbar';
+import MySpace from './MySpace'
 import { navItemsForDashboard, verifySession } from '../../constants';
 import './Dashboard.css';
 
@@ -36,10 +37,14 @@ const Dashboard = ({ isLightTheme }) => {
                 navItems={navItemsForDashboard}
                 isLightTheme={isLightTheme}
             />
-            <div style={{height: '200px'}}></div>
-            <div id='placeholder'>
-                <h1>DASHBOARD - {authenticatedUser}</h1>
-                <h1>🚧 🦺 work in progress 🦺 🚧</h1>
+            <div style={{height: '180px'}}></div>
+            <div id='dashboard-content' className={isLightTheme? 'light': 'dark'}>
+            <Routes>
+                <Route path='/' element={
+                        <h1>hi, {authenticatedUser}</h1>
+                }/>
+                <Route path='/mySpace/*' element={ <MySpace /> }/>
+            </Routes>
             </div>
         </>
     )

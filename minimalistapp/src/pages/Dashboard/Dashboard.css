@@ -1,7 +1,28 @@
-#placeholder {
+#dashboard-content {
     display: flex;
+    /* background-color: chartreuse; */
     flex-direction: column;
+    margin-top: 20px;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: max-content;
+    min-height: 850px;
+}
+
+.dark {
+    color: white;
+    background-color: black;
+    border-color: white;
+}
+.light {
+    color: black;
+    background-color: white;
+    border-color: black;
+}
+
+@media screen and (max-width: 800px) {
+    #dashboard-content {
+        margin-top: 0px;
+        min-height: 650px;
+    }
 }

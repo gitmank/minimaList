@@ -11,6 +11,7 @@ const schemaSetter = require('./controllers/schemaSetter');
 const authenticator = require('./controllers/authenticator');
 const sessionManager = require('./controllers/sessionManager');
 const teamManager = require('./controllers/teamManager');
+const tasksManager = require('./controllers/tasksManager')
 
 // express server setup
 let app = express();
@@ -34,6 +35,7 @@ let Team = schemaSetter.setTeamSchema();
 // let APIkey  = schemaSetter.setAPIkeySchema();
 let Session = schemaSetter.setSessionSchema();
 let TeamCode = schemaSetter.setTeamCodeSchema();
+let MySpaceTasks = schemaSetter.setMySpaceTaskSchema();
 
 // default route used for ping test
 app.get('/', (req, res) => {
@@ -43,13 +45,10 @@ app.get('/', (req, res) => {
 // PRIVATE routes accessible to frontend only
 
 // signup route
-app.post('/signup', (req, res) => authenticator.signup(req, res, bcrypt, User));
+app.post('/signup', (req, res) => authenticator.signup(req, res, bcrypt, User, Session));
 
 // signin route
-app.post('/signin', (req, res) => authenticator.signin(req, res, bcrypt, User));
-
-// store session route
-app.post('/getSessionID', (req, res) => sessionManager.setSession(req, res, bcrypt, Session));
+app.post('/signin', (req, res) => authenticator.signin(req, res, bcrypt, User, Session));
 
 // verify session route
 app.post('/verifySession', (req, res) => sessionManager.verifySession(req, res, Session, User));
@@ -71,3 +70,9 @@ app.post('/teamcodeExists', (req, res) => teamManager.checkTeamCodeExists(req, r
 
 // route to get team details from teamcode
 app.post('/getTeam', (req, res) => teamManager.getTeamDetails(req, res, TeamCode));
+
+// route to get myspace tasks
+app.post('/getMySpace', (req, res) => tasksManager.getMySpace(req, res, MySpaceTasks, Session));
+
+// update myspace tasks route
+app.post('/updateMySpace', (req, res) => tasksManager.updateMySpace(req, res, MySpaceTasks, Session));

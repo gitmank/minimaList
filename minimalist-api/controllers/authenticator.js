@@ -1,4 +1,6 @@
-const signup = async(req, res, bcrypt, User) => {
+const sessionManager = require("./sessionManager");
+
+const signup = async (req, res, bcrypt, User, Session) => {
     if (req.body.key !== process.env.FRONTEND_VERIFICATION_TOKEN) {
         res.status(401).end('invalid');
         return null;
@@ -13,22 +15,19 @@ const signup = async(req, res, bcrypt, User) => {
         email:      req.body.email,
         created:    new Date(),
     })
-    temp.save((error, data) => {
-        if (!error) {
-            let user = JSON.stringify({
-                id: data._id,
-                username: data.username,
-                firstname: data.firstname,
-                key: process.env.BACKEND_VERIFICATION_TOKEN,
-            })
-            res.status(200).send(user)
-        } else
-            res.status(400).end(JSON.stringify('invalid'));
-    })
+
+    try {
+        await temp.save();
+        let session = await sessionManager.setSession(req, Session)
+        res.status(200).send(JSON.stringify(session))
+    }
+    catch {
+        res.status(400).end('invalid')
+    }
 }
 
 
-const signin = async(req, res, bcrypt, User) => {
+const signin = async(req, res, bcrypt, User, Session) => {
     if (req.body.key !== process.env.FRONTEND_VERIFICATION_TOKEN) {
         res.status(401).end('invalid');
         return null;
@@ -44,13 +43,8 @@ const signin = async(req, res, bcrypt, User) => {
 
     const passwordsMatch = await bcrypt.compare(password, data.password);
     if (passwordsMatch) {
-        let user = JSON.stringify({
-            username: data.username,
-            firstName: data.firstname,
-            id: data._id,
-            key: process.env.BACKEND_VERIFICATION_TOKEN,
-        });
-        res.status(200).send(user);
+        let session = await sessionManager.setSession(req, Session);
+        res.status(200).end(JSON.stringify(session));
     } 
     else {
         res.status(403).end('invalid');

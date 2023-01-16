@@ -38,7 +38,7 @@ const SignIn = ({ setAuthenticatedUser }) => {
     const authenticateUser = async (data) => {
         const url = process.env.REACT_APP_SERVER_URL.concat('/signin');
         try {
-            const user = await fetch(url, {
+            const session = await fetch(url, {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -48,31 +48,13 @@ const SignIn = ({ setAuthenticatedUser }) => {
                 })
             })
             .then(response => { return response.json() });
-            if(user.key === process.env.REACT_APP_BACKEND_VERIFICATION_TOKEN) {
-                await setSession(user.username);
+            if(session.key === process.env.REACT_APP_BACKEND_VERIFICATION_TOKEN) {
+                let expiry = Math.floor(((new Date(session.expires).getTime()) - (new Date().getTime()))/1000)
+                setCookie('session', session.id, { path: '/', maxAge: expiry });
+                navigate('/dashboard', {replace: true});
             }
             else
                 throw Error;
-        }
-        catch {
-            resetForm()
-        }
-    }
-
-    const setSession = async (username) => {
-        const url = process.env.REACT_APP_SERVER_URL.concat('/getSessionID');
-        try {
-            const session = await fetch(url, {
-              method: 'post',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                  username: username,
-                  key: process.env.REACT_APP_FRONTEND_VERIFICATION_TOKEN,
-              })
-            }).then(response => { return response.json() })
-            let expiry = Math.floor(((new Date(session.expires).getTime()) - (new Date().getTime()))/1000)
-            setCookie('session', session.id, { path: '/', maxAge: expiry });
-            navigate('/dashboard', {replace: true});
         }
         catch {
             resetForm()

@@ -1,10 +1,7 @@
-const setSession = async (req, res, bcrypt, Session) => {
-    if(req.body.key !== process.env.FRONTEND_VERIFICATION_TOKEN) {
-        res.status(401).end('invalid');
-        return null;
-    }
+const stringGenerator = require("./stringGenerator");
 
-    let sesssionID = await getSessionID();
+const setSession = async (req, Session) => {
+    let sesssionID = stringGenerator.generateSessionID();
     let expires = new Date(new Date().setDate(new Date().getDate() + 7));
     let temp = new Session({
         id:         sesssionID,
@@ -13,13 +10,14 @@ const setSession = async (req, res, bcrypt, Session) => {
         username:   req.body.username
     })
 
-    temp.save((error, data) => {
-        if(!error) {
-            res.status(200).send(JSON.stringify(data));
-        }
-        else 
-            res.status(400).end('invalid');
-    })
+    await temp.save();
+    return {
+        id:         temp.id,
+        expires:    temp.expires,
+        lastUsed:   temp.lastUsed,
+        username:   temp.username,
+        key:        process.env.BACKEND_VERIFICATION_TOKEN,
+    };
 }
 
 const verifySession = async (req, res, Session, User) => {
@@ -89,11 +87,4 @@ module.exports = {
     setSession:     setSession,
     verifySession:  verifySession,
     deleteSession:  deleteSession,
-}
-
-// not for export
-const getSessionID = async () => {
-    return(
-        await fetch(process.env.RANDOM_STRING_API).then((data) => { return data.json() })
-    )
 }

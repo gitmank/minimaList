@@ -48,8 +48,8 @@
 
 #inline-menu {
     display: flex;
-    width: 100%;
-    justify-content: flex-start;
+    width: max-content;
+    justify-content: space-around;
     gap: 10%;
 }
 
@@ -60,6 +60,12 @@
 .navlink:active {
     transition: 10ms;
     transform: scale(1.1);
+}
+
+@media screen and (max-width: 1200px) {
+    #inline-menu {
+        gap: 40px;
+    }
 }
 
 @media screen and (max-width: 800px) {

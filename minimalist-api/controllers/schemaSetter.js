@@ -44,6 +44,17 @@ const setSessionSchema = () => {
     return Session;
 }
 
+const setMySpaceTaskSchema = () => {
+    let mySpaceTaskSchema = new mongoose.Schema({ 
+        tasks:      { type: Array },
+        username:   { type: String },
+    })
+
+    let MySpaceTasks = mongoose.model('myspacetasks', mySpaceTaskSchema)
+
+    return MySpaceTasks;
+}
+
 const setTaskSchema = () => {
     let taskSchema = new mongoose.Schema({
         username:       { type: String },
@@ -95,11 +106,12 @@ const setTeamCodeSchema = () => {
 }
 
 module.exports = {
-    setUserSchema:      setUserSchema,
-    setTaskSchema:      setTaskSchema,
-    setTeamSchema:      setTeamSchema,
-    setHourSchema:      setHourSchema,
-    setAPIkeySchema:    setAPIkeySchema,
-    setSessionSchema:   setSessionSchema,
-    setTeamCodeSchema:  setTeamCodeSchema,
+    setUserSchema:          setUserSchema,
+    setTaskSchema:          setTaskSchema,
+    setTeamSchema:          setTeamSchema,
+    setHourSchema:          setHourSchema,
+    setAPIkeySchema:        setAPIkeySchema,
+    setSessionSchema:       setSessionSchema,
+    setTeamCodeSchema:      setTeamCodeSchema,
+    setMySpaceTaskSchema:   setMySpaceTaskSchema,
 }

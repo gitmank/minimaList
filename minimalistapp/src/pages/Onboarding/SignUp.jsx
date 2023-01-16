@@ -50,7 +50,7 @@ const SignUp = () => {
 
     const handleFormSubmission = async () => {
         const url = process.env.REACT_APP_SERVER_URL.concat('/signup');
-        const user = await fetch(url, {
+        const session = await fetch(url, {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
@@ -63,8 +63,9 @@ const SignUp = () => {
             })
         })
         .then(response => { return response.json() });
-        if(user.key === process.env.REACT_APP_BACKEND_VERIFICATION_TOKEN) {
-            await setSession(user.username)
+        if(session.key === process.env.REACT_APP_BACKEND_VERIFICATION_TOKEN) {
+            let expiry = Math.floor(((new Date(session.expires).getTime()) - (new Date().getTime()))/1000)
+            setCookie('session', session.id, { path: '/', maxAge: expiry });
             if(hasTeam==='1')
                 navigate('/onboarding/joinTeam', {replace: true})
             else
@@ -72,30 +73,6 @@ const SignUp = () => {
         }
         else {
             navigate('/onboarding');
-            alert('It pains us to say there was an error. Please try again.');
-        }
-    }
-
-    const setSession = async (username) => {
-        const url = process.env.REACT_APP_SERVER_URL.concat('/getSessionID');
-        try {
-            const session = await fetch(url, {
-              method: 'post',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                  username: username,
-                  key: process.env.REACT_APP_FRONTEND_VERIFICATION_TOKEN,
-              })
-            }).then(response => { return response.json() })
-            let expiry = Math.floor(((new Date(session.expires).getTime()) - (new Date().getTime()))/1000)
-            setCookie('session', session.id, { path: '/', maxAge: expiry });
-            if(hasTeam==='1')
-            navigate('/onboarding/joinTeam', {replace: true})
-        else
-            navigate('/onboarding/createTeam', {replace: true})
-        }
-        catch {
-            navigate('onboarding');
             alert('It pains us to say there was an error. Please try again.');
         }
     }

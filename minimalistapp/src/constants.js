@@ -18,6 +18,11 @@ export const navItemsForOnboarding = [
 ];
 
 export const navItemsForDashboard = [
+    {link: '/dashboard', text: 'Dashboard'},
+    {link: '/dashboard', text: 'Teams '},
+    {link: '/dashboard', text: 'Tasks'},
+    {link: '/dashboard/mySpace', text: 'MySpace'},
+    {link: '/dashboard', text: '⚙️'},
     {link: '/logout', text: 'Logout'},
 ];
 
