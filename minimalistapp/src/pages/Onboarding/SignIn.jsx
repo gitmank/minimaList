@@ -50,7 +50,7 @@ const SignIn = ({ setAuthenticatedUser }) => {
             .then(response => { return response.json() });
             if(session.key === process.env.REACT_APP_BACKEND_VERIFICATION_TOKEN) {
                 let expiry = Math.floor(((new Date(session.expires).getTime()) - (new Date().getTime()))/1000)
-                setCookie('session', session.id, { path: '/', maxAge: expiry });
+                setCookie('session', session.id, { path: '/', maxAge: expiry,   sameSite: 'strict' });
                 navigate('/dashboard', {replace: true});
             }
             else
